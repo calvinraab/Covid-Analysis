@@ -29,5 +29,75 @@ Data cleaning process. Here we can clean up that data and get it cleaned to the 
 
 ```
 
+### Part 1 
+Provide a descriptive analysis of your variables. This should include histograms and fitted distributions, correlation plot, boxplots, scatterplots, and statistical summaries (e.g., the five-number summary). All figures must include comments.
+```{r}
+
+```
+
+
+### Part 2
+Estimate a multiple linear regression model that includes all the main effects only (i.e., no interactions nor higher order terms). We will use this model as a baseline. Comment on the statistical and economic significance of your estimates. Also, make sure to provide an interpretation of your estimates.
+```{r}
+
+```
+
+
+### Part 3
+Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
+```{r}
+
+```
+
+### Part 4
+Use Mallows Cp for identifying which terms you will keep in the model (based on part 3) and also use the Boruta algorithm for variable selection. Based on the two results, determine which subset of predictors you will keep.
+```{r}
+
+```
+
+
+### Part 5
+Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
+```{r}
+
+```
+
+
+### Part 6
+For your model in part (5) plot the respective residuals vs. y_hat  and comment on your results.
+```{r}
+
+```
+
+
+### Part 7
+For your model in part (5) perform a RESET test and comment on your results.
+```{r}
+
+```
+
+
+### Part 8
+For your model in part (5) test for heteroskedasticity and comment on your results. If you identify heteroskedasticy, make sure to account for it before moving on to (9).
+```{r}
+
+```
+
+
+### Part 9
+Estimate a model based on all your findings that also includes interaction terms (if appropriate) and if needed, any higher power terms. Comment on the performance of this model compared to your other models. Make sure to use AIC and BIC for model comparison.
+```{r}
+
+```
+
+### Part 10
+Evaluate your model performance (from 9) using cross-validation, and also by dividing your data into the traditional 2/3 training and 1/3 testing samples, to evaluate your out-of-sample performance. Comment on your results. 
+```{r}
+
+```
+
+
+### Part 11
+Provide a short (1 paragraph) summary of your overall conclusions/findings.
 
 

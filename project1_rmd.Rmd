@@ -11,7 +11,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Here is where we can put our work. I imagine this is what we will turn in. 
 
+Here I am uploading the original datasets: 
+```{r}
+library(readr)
+Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
+Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
+Food_Supply_kcal_Data <- read_csv("Food_Supply_kcal_Data.csv")
+Protein_Supply_Quantity_Data <- read_csv("Protein_Supply_Quantity_Data.csv")
+Supply_Food_Data_Descriptions <- read_csv("Supply_Food_Data_Descriptions.csv")
+```
 
+Data cleaning process. Here we can clean up that data and get it cleaned to the point where we will be able to work with it. 
+```{r}
+# However we want to clean the data.
+
+
+
+```
 
 
 

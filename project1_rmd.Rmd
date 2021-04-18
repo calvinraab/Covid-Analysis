@@ -25,7 +25,7 @@ Data cleaning process. Here we can clean up that data and get it cleaned to the 
 ```{r}
 # However we want to clean the data.
 
-
+c <- c(4,3)
 
 ```
 

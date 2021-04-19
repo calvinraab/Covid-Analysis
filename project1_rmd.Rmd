@@ -26,6 +26,7 @@ Data cleaning process. Here we can clean up that data and get it cleaned to the 
 # However we want to clean the data.
 
 c <- c(4,3)
+e <- c(6,7,8)
 
 ```
 

@@ -16,6 +16,12 @@ Here I am uploading the original datasets:
 library(readr)
 library(dplyr)
 
+
+library(leaps)
+
+
+
+
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
 Food_Supply_kcal_Data <- read_csv("Food_Supply_kcal_Data.csv")
@@ -32,8 +38,13 @@ Fat_Supply_data <- Fat_Supply_Quantity_Data %>% select(Country, `Animal Products
 Fat_Supply_data <- Fat_Supply_data[Fat_Supply_data$Deaths > 0,]
 Fat_Supply_data <- Fat_Supply_data[!is.na(Fat_Supply_data$Deaths),]
 
+
 Fat_Supply_data$Undernourished[Fat_Supply_data$Undernourished == "<2.5"] <- 2.5
 Fat_Supply_data$Undernourished <- as.numeric(Fat_Supply_data$Undernourished)
+
+data <- Fat_Supply_data
+
+
 ```
 
 ### Part 1 
@@ -46,8 +57,16 @@ Provide a descriptive analysis of your variables. This should include histograms
 ### Part 2
 Estimate a multiple linear regression model that includes all the main effects only (i.e., no interactions nor higher order terms). We will use this model as a baseline. Comment on the statistical and economic significance of your estimates. Also, make sure to provide an interpretation of your estimates.
 ```{r}
+
 m1 <- lm(Deaths ~ ., data = Fat_Supply_data[,-c(1,23)])
 summary(m1)
+
+
+
+model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$`Vegetal Products` + data$`Vegetable Oils` + data$Vegetables + data$Obesity + data$Undernourished + data$Population + data$Confirmed)
+
+summary(model_all)
+
 ```
 
 

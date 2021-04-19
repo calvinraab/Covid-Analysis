@@ -26,7 +26,7 @@ glimpse(Fat_Supply_Quantity_Data)
 
 Data cleaning process. Here we can clean up that data and get it cleaned to the point where we will be able to work with it. 
 ```{r}
-#select columns that 
+#select columns that are not filled with zeros
 Fat_Supply_data <- Fat_Supply_Quantity_Data %>% select(Country, `Animal Products`, `Animal fats`, `Cereals - Excluding Beer`, Eggs, `Fish, Seafood`, `Fruits - Excluding Wine`, Meat, `Milk - Excluding Butter`, Offals, Oilcrops, Pulses, Spices, `Starchy Roots`, Stimulants, Treenuts, `Vegetal Products`, `Vegetable Oils`, Vegetables, Obesity, Undernourished, Population, Confirmed, Deaths)
 
 Fat_Supply_data <- Fat_Supply_data[Fat_Supply_data$Deaths > 0,]
@@ -46,7 +46,8 @@ Provide a descriptive analysis of your variables. This should include histograms
 ### Part 2
 Estimate a multiple linear regression model that includes all the main effects only (i.e., no interactions nor higher order terms). We will use this model as a baseline. Comment on the statistical and economic significance of your estimates. Also, make sure to provide an interpretation of your estimates.
 ```{r}
-m1 <- lm(Deaths ~ ., data = Fat_Supply_data[,-1])
+m1 <- lm(Deaths ~ ., data = Fat_Supply_data[,-c(1,23)])
+summary(m1)
 ```
 
 

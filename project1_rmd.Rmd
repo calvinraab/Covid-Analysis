@@ -17,14 +17,9 @@ library(readr)
 library(dplyr)
 library(leaps)
 library(ggplot2)
-<<<<<<< HEAD
 library(reshape2)
 library(scales)
 library(corrplot)
-
-
-=======
->>>>>>> 88f78c7e3d19a2dad829b349b9fa52f388e4d314
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")

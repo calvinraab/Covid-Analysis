@@ -17,11 +17,14 @@ library(readr)
 library(dplyr)
 library(leaps)
 library(ggplot2)
+<<<<<<< HEAD
 library(reshape2)
 library(scales)
 library(corrplot)
 
 
+=======
+>>>>>>> 88f78c7e3d19a2dad829b349b9fa52f388e4d314
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
@@ -45,7 +48,7 @@ Fat_Supply_data$Undernourished <- as.numeric(Fat_Supply_data$Undernourished)
 
 data <- Fat_Supply_data
 
-# Here is a dataset that includes the parameters found in AIC, along with: Country, Population, Confirmed, and Deaths (Using For Analysis) 
+# Here is a dataset that includes the parameters found in backAIC, along with: Country, Population, Confirmed, and Deaths (Using For Analysis) 
 backAICdata.plus <- data_frame(data$`Country`, data$`Animal fats`, data$`Cereals - Excluding Beer`, data$`Fruits - Excluding Wine`, data$`Oilcrops`, data$`Pulses`, data$`Spices`, data$`Starchy Roots`, data$Stimulants, data$Treenuts, data$`Vegetal Products`, data$`Vegetable Oils`, data$Vegetables, data$Obesity, data$Undernourished, data$Population, data$Confirmed, data$Deaths)
 
 names(backAICdata.plus) <- c("Country", "Animal_Fats", "Cereals", "Fruits", "Oilcrops", "Pulses", "Spices", "Starchy_Roots", "Stimulants", "Treenuts", "Vegetal Products", "Vegetable_Oils", "Vegetables", "Obesity", "Undernourished", "Population", "Confirmed", "Deaths")
@@ -109,6 +112,7 @@ apply(backAICdata.plus[,-1], 2, summary)
 
 
 ```{r}
+library(ggplot2)
 # Percentage of confirmed cases by country - I want to only post the labels of countries that have over a 5% confirmed case level 
 ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + geom_point() + geom_text(check_overlap = TRUE) + scale_x_discrete(guide = guide_axis(check.overlap = TRUE))
 ```

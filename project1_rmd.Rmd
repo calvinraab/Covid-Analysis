@@ -63,10 +63,15 @@ summary(m1)
 
 
 
-model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$`Vegetal Products` + data$`Vegetable Oils` + data$Vegetables + data$Obesity + data$Undernourished + data$Population + data$Confirmed)
+
+model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$`Vegetal Products` + data$`Vegetable Oils` + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
 
 summary(model_all)
 
+n <- length(data$Deaths)
+
+backAIC <- step(model_all ,direction="backward", data=data)
+backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
 ```
 
 

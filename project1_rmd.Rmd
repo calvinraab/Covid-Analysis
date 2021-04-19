@@ -16,6 +16,12 @@ Here I am uploading the original datasets:
 library(readr)
 library(dplyr)
 library(leaps)
+library(ggplot2)
+library(reshape2)
+library(scales)
+library(corrplot)
+
+
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
@@ -44,10 +50,64 @@ backAICdata.plus <- data_frame(data$`Country`, data$`Animal fats`, data$`Cereals
 
 names(backAICdata.plus) <- c("Country", "Animal_Fats", "Cereals", "Fruits", "Oilcrops", "Pulses", "Spices", "Starchy_Roots", "Stimulants", "Treenuts", "Vegetal Products", "Vegetable_Oils", "Vegetables", "Obesity", "Undernourished", "Population", "Confirmed", "Deaths")
 
+# replace NAs in Obesity and Undernourished with the median values
+backAICdata.plus$Obesity[is.na(backAICdata.plus$Obesity)] <- median(backAICdata.plus$Obesity, na.rm=TRUE)
+backAICdata.plus$Undernourished[is.na(backAICdata.plus$Undernourished)] <- median(backAICdata.plus$Undernourished, na.rm=TRUE)
 ```
 
 ### Part 1 
 Provide a descriptive analysis of your variables. This should include histograms and fitted distributions, correlation plot, boxplots, scatterplots, and statistical summaries (e.g., the five-number summary). All figures must include comments.
+
+Columns in dataset:  
+* Fat Supply Measures - Average percentage (out of 100) of fat in diet that comes from each category of food
+    - Categories included: Animal_Fats, Cereals, Fruits, Oilcrops, Pulses, Spices, Starchy_Roots, Stimulants, Treenuts, Vegetal Products, Vegetable_oils, and Vegetables
+    
+* Population Health Measures - Percentage of the population that falls into each category
+    - Obesity and Undernourished
+    
+* Population and COVID Measures
+    - Population - Population of country
+    - Confirmed - Percentage of population with a confirmed positive test for COVID-19
+    - Deaths - Percentage of population that died from COVID-19
+    
+
+```{r}
+# create a boxplot of food categories
+
+
+# melt the data into long form
+fat_data <- melt(backAICdata.plus[,1:13], id = "Country")
+
+# create boxplots
+ggplot(fat_data, aes(x = variable, y = value)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(labels = label_percent(scale = 1)) +
+  xlab("Food Category") +
+  ylab("Percentage of Fat") +
+  ggtitle("Boxplot of Percentage of Fat in Diet from Food Categories")
+```
+
+From the above boxplots, we can see that Vegetal Products and Vegetable Oils are major sources of fat for all countries, whike the average values for other categories are low. We can also see that Oilcrops has a relatively large amount of high outliers compared to other groups.  
+
+```{r}
+# correlation plot of all variables
+
+corrplot(cor(backAICdata.plus[,-1]), method = "circle")
+```
+
+From the above correlation plot, we can see some interesting correlations between some food groups, such as between Vetegal Procucts and Animal Fats. We also see that Obesity and Undernourished are strongly negatively correlated, which makes sense, and that there is a very high correlation between Confirmed Cases and Deaths, which is also to be expected. 
+
+
+```{r}
+# five number summaries for each numeric column
+
+apply(backAICdata.plus[,-1], 2, summary)
+
+
+```
+
+
 ```{r}
 # Percentage of confirmed cases by country - I want to only post the labels of countries that have over a 5% confirmed case level 
 ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + geom_point() + geom_text(check_overlap = TRUE) + scale_x_discrete(guide = guide_axis(check.overlap = TRUE))

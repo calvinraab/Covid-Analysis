@@ -14,6 +14,7 @@ Here is where we can put our work. I imagine this is what we will turn in.
 Here I am uploading the original datasets: 
 ```{r}
 library(readr)
+library(leaps)
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
 Food_Supply_kcal_Data <- read_csv("Food_Supply_kcal_Data.csv")

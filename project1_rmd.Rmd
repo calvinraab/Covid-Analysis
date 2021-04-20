@@ -154,6 +154,24 @@ ols_plot_resid_lev(model_all)
 ### Part 4
 Use Mallows Cp for identifying which terms you will keep in the model (based on part 3) and also use the Boruta algorithm for variable selection. Based on the two results, determine which subset of predictors you will keep.
 ```{r}
+#Mallows CP **gets stuck loading
+
+#ss = regsubsets(data$Deaths~.,really.big = T, method = c("exhaustive"), nbest = 1, data = backAICdata.plus)
+#subsets(ss, statistic="cp", legend = F, main = "Mallows CP")
+
+install.packages("Boruta")
+library(Boruta)
+
+
+Bor.res <- Boruta(data$Deaths~., data = backAICdata.plus, doTrace = 2 )
+plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
+lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
+Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
+names(lz) <- colnames(Bor.res$ImpHistory)
+Labels <- sort(sapply(lz,median))
+plot(Bor.res)
+# Fix labels
+
 
 ```
 

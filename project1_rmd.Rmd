@@ -186,6 +186,7 @@ model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + dat
 
 vif(model_vif)
 
+
 ```
 
 

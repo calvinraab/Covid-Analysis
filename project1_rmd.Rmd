@@ -20,6 +20,7 @@ library(ggplot2)
 library(reshape2)
 library(scales)
 library(corrplot)
+library(car)
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
@@ -138,7 +139,16 @@ backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
 ```{r}
-# testing
+
+# https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
+
+influencePlot(model_all, id=list(n=3)) 
+
+install.packages("olsrr")
+library(olsrr)
+
+ols_plot_resid_lev(model_all)
+
 ```
 
 ### Part 4

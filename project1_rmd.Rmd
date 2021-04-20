@@ -138,7 +138,7 @@ backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
 ```{r}
-
+# testing
 ```
 
 ### Part 4

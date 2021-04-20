@@ -173,7 +173,6 @@ Labels <- sort(sapply(lz,median))
 plot(Bor.res)
 # Fix labels
 
-
 ```
 
 
@@ -193,24 +192,50 @@ vif(model_vif)
 
 ### Part 6
 For your model in part (5) plot the respective residuals vs. y_hat  and comment on your results.
+
+From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother than runs through remains within +- .05. 
 ```{r}
+plot(model_vif)
 
 ```
 
 
 ### Part 7
 For your model in part (5) perform a RESET test and comment on your results.
-```{r}
 
+Here we tested our model by testing our model against a quadratic. Our result is a p-value of .05871 which means we should consider higher order powers. 
+```{r}
+library(lmtest)
+
+resettest(model_vif, power = 2, type = "regressor")
 ```
 
 
 ### Part 8
 For your model in part (5) test for heteroskedasticity and comment on your results. If you identify heteroskedasticy, make sure to account for it before moving on to (9).
-```{r}
 
+Below we will test for heteroskadacity using the ncvTest, bptest, and the gqtest. 
+```{r}
+library(car)
+library(lmtest)
+# Non-constant error variance: Ho: variance = constant 
+ncvTest(model_vif) # Reject Ho
+
+# BP test 
+bptest(model_vif) #Reject Ho
+
+# GQ Test  (not too sure what to order by here)
+gqtest(model_vif, point = .5, alternative = "greater", order.by = model_vif$Obesity) #need to figure out what to order by 
 ```
 
+From the above tests it can be seen that heteroskedacity is present in our data. In order to account for that we will now run our model with robust white standard errors. Here our new standard errors can be found. 
+```{r}
+cov1 <- hccm(model_vif, type = "hc1")
+model_vif.hc1 <- coeftest(model_vif, vcov. = cov1)
+library(broom)
+tidy(model_vif.hc1)
+
+```
 
 ### Part 9
 Estimate a model based on all your findings that also includes interaction terms (if appropriate) and if needed, any higher power terms. Comment on the performance of this model compared to your other models. Make sure to use AIC and BIC for model comparison.

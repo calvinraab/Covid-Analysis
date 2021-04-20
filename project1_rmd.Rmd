@@ -91,7 +91,7 @@ From the above boxplots, we can see that Vegetal Products and Vegetable Oils are
 
 ```{r}
 # correlation plot of all variables
-
+library(corrplot)
 corrplot(cor(backAICdata.plus[,-1]), method = "circle")
 ```
 
@@ -132,7 +132,7 @@ n <- length(data$Deaths)
 
 backAIC <- step(model_all ,direction="backward", data=data)
 summary(backAIC)
-backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
+# backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
 ```
 
 
@@ -141,11 +141,12 @@ Identify if there are any outliers, high leverage, and or influential observatio
 ```{r}
 
 # https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
+# install.packages("olsrr")
+library(olsrr)
+library(car)
+
 
 influencePlot(model_all, id=list(n=3)) 
-
-install.packages("olsrr")
-library(olsrr)
 
 ols_plot_resid_lev(model_all)
 
@@ -159,7 +160,7 @@ Use Mallows Cp for identifying which terms you will keep in the model (based on 
 #ss = regsubsets(data$Deaths~.,really.big = T, method = c("exhaustive"), nbest = 1, data = backAICdata.plus)
 #subsets(ss, statistic="cp", legend = F, main = "Mallows CP")
 
-install.packages("Boruta")
+# install.packages("Boruta")
 library(Boruta)
 
 

@@ -161,6 +161,12 @@ Use Mallows Cp for identifying which terms you will keep in the model (based on 
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
+vif(model_all) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
+
+
+model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
+
+vif(model_vif)
 
 ```
 

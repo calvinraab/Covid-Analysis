@@ -211,13 +211,14 @@ plot(Bor.res, xlab = "Attributes", main = "Boruta Algorithim")
 # Fix labels
 
 # Testing to see which variables we want to remove
+attStats(Bor.res)
 sorted_vars <- attStats(Bor.res)[order(-attStats(Bor.res)$meanImp),]
 print(sorted_vars)
-# We will reject: Treenuts, Starchy Roots, Vegetables, Spices, Fruits
+# We will reject: Stimulants, Treenuts, Starchy Roots, Vegetables, Spices, Fruits
 
 
 # Our New Model 
-new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+Stimulants+`Vegetal Products`+Vegetable_Oils+Obesity, data=no_unusual_observations)
+new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+Vegetable_Oils+Obesity, data=no_unusual_observations)
 summary(new_model_2)
 ```
 
@@ -228,7 +229,7 @@ Test for multicollinearity using VIF on the model from (4) . Based on the test, 
 vif(new_model_2) # We will remove any variable with a VIF over 10 to satisfy collinearity assumption
 
 # Remove: OilCrops, Vegetal Products, and Vegtable Oils 
-new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Pulses+Stimulants+Obesity, data=no_unusual_observations)
+new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Pulses+Obesity, data=no_unusual_observations)
 
 #New MOdel 
 summary(new_model_3)

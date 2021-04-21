@@ -23,6 +23,9 @@ library(scales)
 library(corrplot)
 library(car)
 library(stargazer)
+library(lmtest)
+library(broom)
+library(AER)
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 ```
@@ -239,7 +242,10 @@ ols_mallows_cp(backAIC, model_all)
 # install.packages("Boruta")
 library(Boruta)
 
-Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, doTrace = 2 )
+Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+                    Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+                    Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, 
+                  doTrace = 2 )
 # plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
@@ -255,7 +261,8 @@ print(sorted_vars)
 # We will reject: Stimulants, Treenuts, Starchy Roots, Vegetables, Spices, Fruits
 
 # Our New Model 
-new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+Vegetable_Oils+Obesity, data=no_unusual_observations)
+new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+
+                    Vegetable_Oils+Obesity, data=no_unusual_observations)
 summary(new_model_2)
 ```
 
@@ -263,45 +270,50 @@ summary(new_model_2)
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
-vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
+vif(new_model_2)
+# We will remove any variable with a VIF over 5 to satisfy 
+#collinearity assumption
 
 # Vegetal products has the highest VIF, so we remove that and repeat
-vif_1 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity, data=no_unusual_observations)
+vif_1 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity, 
+            data=no_unusual_observations)
 vif(vif_1)
 ```
 
 After removing Vegetal Products, all other predictors have a VIF under 5, so we will keep all of those.
 
 ```{r}
-new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity, data=no_unusual_observations)
+new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+
+                    Obesity, data=no_unusual_observations)
 
 #New Model 
 summary(new_model_3)
 
 ```
 
+In our new model, we can see that Animal Fats and Obesity are the only predictors that are statistically significant.  
 
 ### Part 6
 For your model in part (5) plot the respective residuals vs. y_hat  and comment on your results.
 
-From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother runs close to zero which is a good thing. 
+
 ```{r}
 par(mfrow=c(2,2))
 plot(new_model_3)
 
 ```
 
+From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother runs close to zero which is a good thing. 
 
 ### Part 7
 For your model in part (5) perform a RESET test and comment on your results.
 
-Here we tested our model by testing our model against a quadratic. Our result is a p-value of 0.7077 which means we should consider higher order powers. 
+ 
 ```{r}
-library(lmtest)
-
 resettest(new_model_3, power = 2, type = "regressor")
 ```
 
+Here we tested our model by testing our model against a quadratic. Our result is a p-value of 0.3703 which means that we fail to reject the null hypothesis of higher powers existing and should not consider higher powers in later version of our model.  
 
 ### Part 8
 For your model in part (5) test for heteroskedasticity and comment on your results. If you identify heteroskedasticy, make sure to account for it before moving on to (9).
@@ -315,24 +327,30 @@ ncvTest(new_model_3) # Reject Ho
 bptest(new_model_3) #Reject Ho
 ```
 
-From the above tests it can be seen that heteroskedacity is present in our data. In order to account for that we will now run our model with robust white standard errors. Here our new standard errors can be found. 
+From the above tests it can be seen that heteroskedacity is present in our data, as the p-value for both tests is essentially zero. In order to account for that we will now run our model with robust white standard errors. Here our new standard errors can be found. 
+
 ```{r}
 cov1 <- hccm(new_model_3, type = "hc1")
 #Have our model account for those errors. 
 new_model_3_adjusted <- coeftest(new_model_3, vcov. = cov1)
-library(broom)
 tidy(new_model_3_adjusted)
 ```
+
+The above table has the adjusted standard errors for the estimates when heterskedasticity is accounted for. We can see that Pulses now becomes statistically significant when using the adjusted standard errors despite not being significant earlier.  
 
 ### Part 9
 Estimate a model based on all your findings that also includes interaction terms (if appropriate) and if needed, any higher power terms. Comment on the performance of this model compared to your other models. Make sure to use AIC and BIC for model comparison.
 ```{r}
-# Our RESET test suggested there may be an existence of higher power terms, which will be tested here. Specifically we will be checking our variables against them in quadratic form. 
+# Our RESET test suggested there is no existence of higher power terms,
+# so we will not test for those
 
-higher_power <- lm(Deaths~Animal_Fats+Pulses+Obesity+I(Animal_Fats^2)+I(Pulses^2)+I(Obesity^2), data=no_unusual_observations)
-summary(higher_power) #None of the higher powers are statistically significant
-
-interaction_terms <- lm(Deaths~Animal_Fats+Pulses+Obesity+(Animal_Fats*Pulses)+(Animal_Fats*Obesity)+(Pulses*Obesity), data=no_unusual_observations)
+# Testing for interaction
+interaction_terms <- lm(Deaths~Animal_Fats+ Cereals + Oilcrops + Pulses + 
+  Vegetable_Oils + Obesity + Animal_Fats:Cereals + Animal_Fats:Oilcrops +
+    Animal_Fats:Pulses + Animal_Fats:Vegetable_Oils + Animal_Fats:Obesity + 
+    Cereals:Oilcrops + Cereals:Pulses + 
+    Cereals:Vegetable_Oils + Cereals:Obesity + Oilcrops:Pulses + Oilcrops:Vegetable_Oils + Oilcrops:Obesity + 
+    Pulses:Vegetable_Oils + Pulses:Obesity +  Vegetable_Oils:Obesity, data=no_unusual_observations)
 
 summary(interaction_terms) #Pulses:Obesity is statistically significant, this will be added to a new model
 
@@ -342,8 +360,7 @@ summary(new_model_4)
 
 
 # Testing with AIC and BIC 
-library(broom)
-library(AER)
+
 AIC(new_model_1, new_model_2, new_model_3, new_model_4)
 BIC(new_model_1, new_model_2, new_model_3, new_model_4)
 
@@ -352,7 +369,7 @@ BIC(new_model_1, new_model_2, new_model_3, new_model_4)
 cov2 <- hccm(new_model_4, type = "hc1")
 #Have our model account for those errors. 
 new_model_4_adjusted <- coeftest(new_model_4, vcov. = cov2)
-library(broom)
+
 tidy(new_model_4_adjusted)
 
 ```

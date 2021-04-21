@@ -246,6 +246,8 @@ Estimate a model based on all your findings that also includes interaction terms
 ### Part 10
 Evaluate your model performance (from 9) using cross-validation, and also by dividing your data into the traditional 2/3 training and 1/3 testing samples, to evaluate your out-of-sample performance. Comment on your results. 
 ```{r}
+# install.packages("caret")
+# install.packages("lattice")
 library(caret)
 model_final <- model_vif # replace this with the model from 9 once we have it
 

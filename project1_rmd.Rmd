@@ -133,69 +133,125 @@ n <- length(data$Deaths)
 backAIC <- step(model_all ,direction="backward", data=data)
 summary(backAIC)
 # backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
+
+# Baseline Model 
+backAIC
 ```
 
 As can be seen in the model output above, all food categories are statistically significant at the $\alpha = .05$ level. Obesity is also a statistically significant predictor, though Undernourished is surprisingly not statistically significant. The magnitude of the estimates for the food categories is roughly the same, with a 1% increase in fat from each food category leading to a .17 - .19 percent change in expected death rate from COVID-19. What is interesting is that Vegetal Products is the only statistically significant predictor with a negative coefficient, while all other food categories are positive. An increase of 1% in population obesity leads to an increase in .001% of expected COVID-19 death rate.  
 
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
+
+
 ```{r}
 
 # https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
-# install.packages("olsrr")
 library(olsrr)
 library(car)
 
 
-influencePlot(backAIC, id=list(n=3)) 
+plot(backAIC)
 
+influencePlot(backAIC, id=list(n=3)) 
 ols_plot_resid_lev(backAIC)
+
+
+# These are the observations both graphs agree on
+
+## high leverage (x) = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)
+## influential (y and x) = 19 (Bosnia/Herzegovina)
+## outlier (y) = 103 (New Zealand), 113 (Peru)
+
+# Remove  unusual observations with slice 
+
+no_highleverage <- backAICdata.plus %>% slice(-c(120,90,47))
+no_influential <- backAICdata.plus %>% slice(-19)
+no_outlier <- backAICdata.plus %>% slice(-c(103,113))
+no_unusual_observations <- backAICdata.plus %>% slice(-c(120,90,47,19,103,113))
+
+no_unusual_observations
+backAICdata.plus
+
+# Re-estimate the models to see without unusual observations
+
+modeltest <- lm(backAIC, data = no_unusual_observations)
+summary(modeltest)
+summary(backAIC)
+
+# These are the same models?
+# influencePlot(new_model_1, id=list(n=3)) 
+# ols_plot_resid_lev(modeltest)
+
+# New model 
+new_model_1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
+summary(new_model_1)
 
 ```
 
 ### Part 4
 Use Mallows Cp for identifying which terms you will keep in the model (based on part 3) and also use the Boruta algorithm for variable selection. Based on the two results, determine which subset of predictors you will keep.
 ```{r}
-#Mallows CP **gets stuck loading
-
-#ss = regsubsets(data$Deaths~.,really.big = T, method = c("exhaustive"), nbest = 1, data = backAICdata.plus)
-#subsets(ss, statistic="cp", legend = F, main = "Mallows CP")
+# Here we will use Mallows CP and Boruta which will estimate a new model.
+# Mallows CP - Here we will be testing between the two models that we created part 3
+# Since Mallows CP has a lower number when testing our new_model_1, we will proceed with that model. 
+ols_mallows_cp(new_model_1, model_all)
+ols_mallows_cp(backAIC, model_all)
 
 # install.packages("Boruta")
 library(Boruta)
 
-
-Bor.res <- Boruta(data$Deaths~., data = backAICdata.plus, doTrace = 2 )
-plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
+Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, doTrace = 2 )
+# plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
 names(lz) <- colnames(Bor.res$ImpHistory)
 Labels <- sort(sapply(lz,median))
-plot(Bor.res)
+plot(Bor.res, xlab = "Attributes", main = "Boruta Algorithim")
 # Fix labels
 
+# Testing to see which variables we want to remove
+attStats(Bor.res)
+sorted_vars <- attStats(Bor.res)[order(-attStats(Bor.res)$meanImp),]
+print(sorted_vars)
+# We will reject: Stimulants, Treenuts, Starchy Roots, Vegetables, Spices, Fruits
+
+
+# Our New Model 
+new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+Vegetable_Oils+Obesity, data=no_unusual_observations)
+summary(new_model_2)
 ```
 
 
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
+<<<<<<< HEAD
 vif(backAIC) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
 
 
 model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
 
 vif(model_vif)
+=======
+vif(new_model_2) # We will remove any variable with a VIF over 10 to satisfy collinearity assumption
+
+# Remove: OilCrops, Vegetal Products, and Vegtable Oils 
+new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Pulses+Obesity, data=no_unusual_observations)
+
+#New MOdel 
+summary(new_model_3)
+>>>>>>> 474f50b750b935756ab00bb97535389a68b47b64
 ```
 
 
 ### Part 6
 For your model in part (5) plot the respective residuals vs. y_hat  and comment on your results.
 
-From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother than runs through remains within +- .05. 
+From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother runs close to zero which is a good thing. 
 ```{r}
 par(mfrow=c(2,2))
-plot(model_vif)
+plot(new_model_3)
 
 ```
 
@@ -203,11 +259,11 @@ plot(model_vif)
 ### Part 7
 For your model in part (5) perform a RESET test and comment on your results.
 
-Here we tested our model by testing our model against a quadratic. Our result is a p-value of .05871 which means we should consider higher order powers. 
+Here we tested our model by testing our model against a quadratic. Our result is a p-value of 0.1389 which means we should consider higher order powers. 
 ```{r}
 library(lmtest)
 
-resettest(model_vif, power = 2, type = "regressor")
+resettest(new_model_3, power = 2, type = "regressor")
 ```
 
 
@@ -217,22 +273,23 @@ For your model in part (5) test for heteroskedasticity and comment on your resul
 Below we will test for heteroskedacity using the ncvTest, bptest, and the gqtest. 
 ```{r}
 # Non-constant error variance: Ho: variance = constant 
-ncvTest(model_vif) # Reject Ho
+ncvTest(new_model_3) # Reject Ho
 
 # BP test 
-bptest(model_vif) #Reject Ho
+bptest(new_model_3) #Reject Ho
 
 # GQ Test  (not too sure what to order by here)
-gqtest(model_vif, point = .5, alternative = "greater", order.by = model_vif$Obesity) #need to figure out what to order by 
+# gqtest(new_model_3, point = .5, alternative = "greater", order.by = model_vif$Obesity) 
+#need to figure out what to order by 
 ```
 
 From the above tests it can be seen that heteroskedacity is present in our data. In order to account for that we will now run our model with robust white standard errors. Here our new standard errors can be found. 
 ```{r}
-cov1 <- hccm(model_vif, type = "hc1")
-model_vif.hc1 <- coeftest(model_vif, vcov. = cov1)
+cov1 <- hccm(new_model_3, type = "hc1")
+#Have our model account for those errors. 
+new_model_3_adjusted <- coeftest(new_model_3, vcov. = cov1)
 library(broom)
-tidy(model_vif.hc1)
-
+tidy(new_model_3_adjusted)
 ```
 
 ### Part 9
@@ -247,7 +304,7 @@ Evaluate your model performance (from 9) using cross-validation, and also by div
 # install.packages("caret")
 # install.packages("lattice")
 library(caret)
-model_final <- model_vif # replace this with the model from 9 once we have it
+model_final <- new_model_3 # replace this with the model from 9 once we have it
 
 # split data into 2/3 train 1/3 test
 train <- sample(nrow(data), nrow(data) * 2/3)

@@ -242,15 +242,15 @@ ols_mallows_cp(backAIC, model_all)
 # install.packages("Boruta")
 library(Boruta)
 
-<<<<<<< HEAD
+
 Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
                     Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
                     Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, 
                   doTrace = 2 )
 # plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
-=======
+
 plot(Bor.res, xlab = "Attributes", xaxt = "n", main = "Boruta Algorithim")
->>>>>>> b30fd542fc91dfa19f6cf36212880c81c3ef7555
+
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
 names(lz) <- colnames(Bor.res$ImpHistory)
@@ -274,22 +274,9 @@ summary(new_model_2)
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
-<<<<<<< HEAD
-vif(new_model_2)
-# We will remove any variable with a VIF over 5 to satisfy 
-#collinearity assumption
-=======
-<<<<<<< HEAD
 
-
-vif(backAIC) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
-
-
-model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
-=======
 vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
->>>>>>> 56a90fa94c6d8d5a8fe6d20e83ce4694f1a6960f
->>>>>>> b30fd542fc91dfa19f6cf36212880c81c3ef7555
+
 
 # Vegetal products has the highest VIF, so we remove that and repeat
 vif_1 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity, 
@@ -297,14 +284,9 @@ vif_1 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity,
 vif(vif_1)
 ```
 
-<<<<<<< HEAD
-vif(new_model_2) # We will remove any variable with a VIF over 10 to satisfy collinearity assumption
 
-vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
-
-=======
 After removing Vegetal Products, all other predictors have a VIF under 5, so we will keep all of those.
->>>>>>> 56a90fa94c6d8d5a8fe6d20e83ce4694f1a6960f
+
 
 ```{r}
 new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+

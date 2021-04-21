@@ -166,7 +166,7 @@ As can be seen in the model output above, all food categories are statistically 
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.  
 
-We examined outliers using the base residual plot as well as influence and residual plots from the olsrr package to get a comprehensive overview of which points may be outliers.  
+We examined for unusual observations using the base residual plot as well as influence and residual plots from the olsrr package to get a comprehensive overview of which points may be unusual observations.  
 
 ```{r}
 library(olsrr)
@@ -180,9 +180,9 @@ ols_plot_resid_lev(backAIC)
 The following observations were identified by both plots as unusual:  
 * High leverage = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)  
 * Outlier = 103 (New Zealand), 113 (Peru)
-* Influential bad leverage = 19 (Bosnia/Herzegovina)
+* Influential = 19 (Bosnia/Herzegovina)
 
-We next created new models that used reduced versions of the dataset, removing each type of outlier.
+We next created new models that used reduced versions of the dataset, removing each type of unusual observation.
 ```{r}
 # Remove the unusual observations from the data with slice 
 no_highleverage <- backAICdata.plus %>% slice(-c(120,90,47))
@@ -217,7 +217,7 @@ stargazer(mod0, mod1, mod2, mod3, mod4, object.names = TRUE,
           font.size = "small", column.sep.width = "-15pt")
 ```
   
-As can be seen in the table above, the R-squared of the model that removes all outliers and high leverage points is a noticeable improvement over the base model including all data points. We noticed that the estimates for the coefficients did not change much between models, indicating that while the outliers were negatively affecting the accuracy metrics of the model, they were not changing the estimates for the parameters themselves. We decided to remove the outliers and leverage points because we wanted to be able to compare future models against each other fairly, without the outliers influencing the accuracy metrics of those models.  
+As can be seen in the table above, the R-squared of the model that removes all outliers ahigh leverage points is a noticeable improvement over the base model including all data points. We noticed that the estimates for the coefficients did not change much between models, indicating that while the outliers were negatively affecting the accuracy metrics of the model, they were not changing the estimates for the parameters themselves. We decided to remove the outliers and leverage points because we wanted to be able to compare future models against each other fairly, without the outliers influencing the accuracy metrics of those models.  
 
 ```{r}
 # New model 
@@ -239,6 +239,11 @@ ols_mallows_cp(backAIC, model_all)
 # install.packages("Boruta")
 library(Boruta)
 
+Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+                    Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+                    Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, 
+                  doTrace = 2 )
+
 plot(Bor.res, xlab = "Attributes", xaxt = "n", main = "Boruta Algorithim")
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
@@ -257,6 +262,7 @@ print(sorted_vars)
 new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+Vegetable_Oils+Obesity, data=no_unusual_observations)
 summary(new_model_2)
 ```
+
 
 
 ### Part 5

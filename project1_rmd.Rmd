@@ -144,11 +144,12 @@ Identify if there are any outliers, high leverage, and or influential observatio
 # install.packages("olsrr")
 library(olsrr)
 library(car)
+# list(n=3)
 
+influencePlot(backAIC, id = list(n=3)) 
+?influencePlot()
 
-influencePlot(model_all, id=list(n=3)) 
-
-ols_plot_resid_lev(model_all)
+ols_plot_resid_lev(backAIC)
 
 ```
 

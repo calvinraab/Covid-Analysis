@@ -421,10 +421,20 @@ Provide a short (1 paragraph) summary of your overall conclusions/findings.
 
 When examining the data overall, there were not any massive outliers that stood out. We found that many of the food categories that were included in tracking fat sources were not statistically or practically significant. Our model was quickly trimmed down from the initial pool of variables that we considered. Our final model is repeated below, along with the adjusted errors. Through model comparison with AIC and BIC, we found that the best predictors to include were Animal Fats, Cereals, Oilcrops, Pulses, Vegetable Oils, Obesity, and the interaction between Animal Fats and Obesity. 
 
-```{r}
+```{r newtable, results = "asis"}
 summary(new_model_4)
 tidy(new_model_4_adjusted)
+library(stargazer)
+
+stargazer(backAIC, new_model_1, new_model_2, new_model_3, new_model_4, object.names = TRUE, 
+          title = "Regression Model Results", column.labels = 
+            c("BackAIC", "Model 1", "Model 2", 
+              "Model 3", "Model 4"), type = 'latex', 
+          header = FALSE, no.space = TRUE, single.row = TRUE, 
+          font.size = "small", column.sep.width = "-15pt")
 ```
+
+
 
 
 

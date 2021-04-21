@@ -26,6 +26,7 @@ library(stargazer)
 library(lmtest)
 library(broom)
 library(AER)
+library(caret)
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 ```
@@ -284,9 +285,7 @@ vif_1 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity,
 vif(vif_1)
 ```
 
-
 After removing Vegetal Products, all other predictors have a VIF under 5, so we will keep all of those.
-
 
 ```{r}
 new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+
@@ -302,18 +301,15 @@ In our new model, we can see that Animal Fats and Obesity are the only predictor
 ### Part 6
 For your model in part (5) plot the respective residuals vs. y_hat  and comment on your results.
 
-
 ```{r}
 par(mfrow=c(2,2))
 plot(new_model_3)
-
 ```
 
 From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother runs close to zero which is a good thing. 
 
 ### Part 7
 For your model in part (5) perform a RESET test and comment on your results.
-
  
 ```{r}
 resettest(new_model_3, power = 2, type = "regressor")
@@ -355,12 +351,15 @@ interaction_terms <- lm(Deaths~Animal_Fats+ Cereals + Oilcrops + Pulses +
   Vegetable_Oils + Obesity + Animal_Fats:Cereals + Animal_Fats:Oilcrops +
     Animal_Fats:Pulses + Animal_Fats:Vegetable_Oils + Animal_Fats:Obesity + 
     Cereals:Oilcrops + Cereals:Pulses + 
-    Cereals:Vegetable_Oils + Cereals:Obesity + Oilcrops:Pulses + Oilcrops:Vegetable_Oils + Oilcrops:Obesity + 
-    Pulses:Vegetable_Oils + Pulses:Obesity +  Vegetable_Oils:Obesity, data=no_unusual_observations)
+    Cereals:Vegetable_Oils + Cereals:Obesity + Oilcrops:Pulses + 
+    Oilcrops:Vegetable_Oils + Oilcrops:Obesity + 
+    Pulses:Vegetable_Oils + Pulses:Obesity +  Vegetable_Oils:Obesity, 
+  data=no_unusual_observations)
 
-summary(interaction_terms) #Pulses:Obesity is statistically significant, this will be added to a new model
+summary(interaction_terms) #Animal_Fats:Vegetable_oils is statistically significant, this will be added to a new model
 
-new_model_4 <- lm(Deaths~Animal_Fats+Pulses+Obesity+(Pulses*Obesity), data=no_unusual_observations)
+new_model_4 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+
+                    Obesity + Animal_Fats:Vegetable_Oils, data=no_unusual_observations)
 
 summary(new_model_4)
 
@@ -377,42 +376,43 @@ cov2 <- hccm(new_model_4, type = "hc1")
 new_model_4_adjusted <- coeftest(new_model_4, vcov. = cov2)
 
 tidy(new_model_4_adjusted)
-
 ```
 
-Above we first tested for higher powers because the RESET test suggested we should test our model with quadratic variables. We found no statistically significant powers. After testing for higher powers we tested for interaction terms. The interaction between Pulses and Obesity was statistically significant so it was added to the model, creating new_model_4. We then went and tested all of our models with AIC and BIC and it was confirmed that new_model_4 had the lowest AIC and BIC, leading us to believe that we had found the best model. In part 8 we learned that heteroskadacity is present in our data, we took this into cosideration and calculated the robust standard errors for new_model_4, which created new_model_4_adjusted. 
+As stated above, we did not test for higher powers because the RESET test suggested we should not test our model with quadratic variables. We only tested for interaction terms, and in our model that included all interaction terms we found that the interaction between Animal Fats and Vegetable Oils was statistically significant. This interaction was added to model 3, creating new_model_4. We then went and tested all of our models with AIC and BIC and it was confirmed that new_model_4 had the lowest AIC and was virtually tied in BIC with model 3. This lead us to believe that we had found the best model in model 4. In part 8 we learned that heteroskedacity is present in our data, we took this into cosideration and calculated the robust standard errors for new_model_4, which created new_model_4_adjusted. Again, we see that Pulses becomes statistically significant when accounting for the adjusted standard errors.
 
 
 ### Part 10
 Evaluate your model performance (from 9) using cross-validation, and also by dividing your data into the traditional 2/3 training and 1/3 testing samples, to evaluate your out-of-sample performance. Comment on your results. 
 ```{r}
-# install.packages("caret")
-# install.packages("lattice")
-library(caret)
-model_final <- new_model_4 # replace this with the model from 9 once we have it
 
 # split data into 2/3 train 1/3 test
-train <- sample(nrow(data), nrow(data) * 2/3)
-data_train <- data[train,]
-data_test <- data[-train,]
+train <- sample(nrow(no_unusual_observations), nrow(no_unusual_observations) * 2/3)
+data_train <- no_unusual_observations[train,]
+data_test <- no_unusual_observations[-train,]
 
 # do 5-fold cross validation on the training partition
 # using model_vif below as placeholder
 fitControl <- trainControl(method="cv", number = 5, savePredictions = T)
-model_cv <- train(Deaths ~  `Cereals - Excluding Beer` + Eggs + `Fish, Seafood` + `Fruits - Excluding Wine` + Meat + `Milk - Excluding Butter` + Offals + Oilcrops + Pulses + Spices + `Starchy Roots` + Stimulants + Treenuts + Vegetables + Obesity + Undernourished + Population, data = data_train, trControl = fitControl, method = "glm")
+model_cv <- train(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+
+                    Obesity + Animal_Fats:Vegetable_Oils, data=data_train,  
+                  trControl = fitControl, method = "glm")
 
 model_cv
+```
 
-summary(model_cv)
+From our cross validation, we see that the RMSE is .036 and the R-squared is .471 within the cross-validation partition.
+
+```{r}
 
 # make predictions on the testing partition
-pred <- predict(model_cv, data_test)
+pred <- predict(model_cv, data_test, vcov. = cov2)
 
 # calculate RMSE
 RMSE(pred, data_test$Deaths)
 
 ```
 
+The RMSE on our test partition from the model created with the training partition is .037, which is in line with the value from above. This is a good sign for the out-of-sample performance of the model.  
 
 ### Part 11
 Provide a short (1 paragraph) summary of your overall conclusions/findings.

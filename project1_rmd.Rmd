@@ -139,23 +139,48 @@ As can be seen in the model output above, all food categories are statistically 
 
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
+
+
 ```{r}
 
 # https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
-# install.packages("olsrr")
 library(olsrr)
 library(car)
-# list(n=3)
 
-influencePlot(backAIC, id = list(n=3)) 
-?influencePlot()
+plot(backAIC)
 
-<<<<<<< HEAD
-=======
 influencePlot(backAIC, id=list(n=3)) 
-
->>>>>>> 7487c00bd7847033ab1dd1434f76afbf9cb7663f
 ols_plot_resid_lev(backAIC)
+
+
+# These are the observations both graphs agree on
+
+## high leverage (x) = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)
+## influential (y and x) = 19 (Bosnia/Herzegovina)
+## outlier (y) = 103 (New Zealand), 113 (Peru)
+
+# Remove  unusual observations with slice 
+
+no_highleverage <- backAICdata.plus %>% slice(-c(120,90,47))
+no_influential <- backAICdata.plus %>% slice(-19)
+no_outlier <- backAICdata.plus %>% slice(-c(103,113))
+no_unusual_observations <- backAICdata.plus %>% slice(-c(120,90,47,19,103,113))
+
+no_unusual_observations
+backAICdata.plus
+
+# Re-estimate the models to see without unsuaul observations
+
+modeltest <- lm(backAIC, data = no_unusual_observations)
+summary(modeltest)
+summary(backAIC)
+
+# These are the same models?
+
+influencePlot(modeltest, id=list(n=3)) 
+ols_plot_resid_lev(modeltest)
+
+
 
 ```
 
@@ -169,6 +194,7 @@ Use Mallows Cp for identifying which terms you will keep in the model (based on 
 
 # install.packages("Boruta")
 library(Boruta)
+
 
 
 Bor.res <- Boruta(data$Deaths~., data = backAICdata.plus, doTrace = 2 )

@@ -5,6 +5,7 @@ date: "4/21/2021"
 output:
   pdf_document: default
   html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -140,12 +141,7 @@ As can be seen in the model output above, all food categories are statistically 
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
 ```{r}
-
-# https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
 library(olsrr)
-library(car)
-
-
 plot(backAIC)
 
 influencePlot(backAIC, id=list(n=3)) 
@@ -158,17 +154,28 @@ ols_plot_resid_lev(backAIC)
 ## influential (y and x) = 19 (Bosnia/Herzegovina)
 ## outlier (y) = 103 (New Zealand), 113 (Peru)
 
-# Remove  unusual observations with slice 
+# Remove unusual observations with slice 
 
 no_highleverage <- backAICdata.plus %>% slice(-c(120,90,47))
 no_influential <- backAICdata.plus %>% slice(-19)
 no_outlier <- backAICdata.plus %>% slice(-c(103,113))
 no_unusual_observations <- backAICdata.plus %>% slice(-c(120,90,47,19,103,113))
 
-no_unusual_observations
-backAICdata.plus
 
-# Re-estimate the models to see without unusual observations
+mod1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_highleverage)
+mod2 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_influential)
+mod3 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_outlier)
+mod4 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
+
+```
+
+```{r mylatextable, results = "asis"}
+library(stargazer)
+stargazer(mod1, mod2, mod3, mod4, object.names = TRUE, title = "Regression Models without (1) High Leverage, (2) Influential, (3) Outlier (4) All Unusual Oberservations", type = 'latex')
+```
+
+```{r}
+# Re-estimate the models without unusual observations
 
 modeltest <- lm(backAIC, data = no_unusual_observations)
 summary(modeltest)
@@ -184,9 +191,10 @@ summary(new_model_1)
 
 ```
 
+
 ### Part 4
 Use Mallows Cp for identifying which terms you will keep in the model (based on part 3) and also use the Boruta algorithm for variable selection. Based on the two results, determine which subset of predictors you will keep.
-```{r}
+```{r, message=FALSE}
 # Since Mallows CP has a lower number when testing our new_model_1, we will proceed with that model. 
 ols_mallows_cp(new_model_1, model_all)
 ols_mallows_cp(backAIC, model_all)
@@ -200,7 +208,7 @@ lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
 names(lz) <- colnames(Bor.res$ImpHistory)
 Labels <- sort(sapply(lz,median))
-plot(Bor.res, xlab = "Attributes", main = "Boruta Algorithim")
+#plot(Bor.res, xlab = "Attributes", main = "Boruta Algorithim")
 # Fix labels
 
 # Testing to see which variables we want to remove

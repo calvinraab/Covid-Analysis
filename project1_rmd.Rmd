@@ -150,6 +150,7 @@ Identify if there are any outliers, high leverage, and or influential observatio
 library(olsrr)
 library(car)
 
+
 plot(backAIC)
 
 influencePlot(backAIC, id=list(n=3)) 
@@ -179,9 +180,8 @@ summary(modeltest)
 summary(backAIC)
 
 # These are the same models?
-
-influencePlot(new_model_1, id=list(n=3)) 
-ols_plot_resid_lev(modeltest)
+# influencePlot(new_model_1, id=list(n=3)) 
+# ols_plot_resid_lev(modeltest)
 
 # New model 
 new_model_1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
@@ -202,12 +202,12 @@ ols_mallows_cp(backAIC, model_all)
 library(Boruta)
 
 Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, doTrace = 2 )
-plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
+# plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
 names(lz) <- colnames(Bor.res$ImpHistory)
 Labels <- sort(sapply(lz,median))
-plot(Bor.res)
+plot(Bor.res, xlab = "Attributes", main = "Boruta Algorithim")
 # Fix labels
 
 # Testing to see which variables we want to remove
@@ -269,7 +269,8 @@ ncvTest(new_model_3) # Reject Ho
 bptest(new_model_3) #Reject Ho
 
 # GQ Test  (not too sure what to order by here)
-gqtest(new_model_3, point = .5, alternative = "greater", order.by = model_vif$Obesity) #need to figure out what to order by 
+# gqtest(new_model_3, point = .5, alternative = "greater", order.by = model_vif$Obesity) 
+#need to figure out what to order by 
 ```
 
 From the above tests it can be seen that heteroskedacity is present in our data. In order to account for that we will now run our model with robust white standard errors. Here our new standard errors can be found. 

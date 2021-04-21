@@ -22,6 +22,7 @@ library(reshape2)
 library(scales)
 library(corrplot)
 library(car)
+library(stargazer)
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 ```
@@ -142,53 +143,36 @@ As can be seen in the model output above, all food categories are statistically 
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
 ```{r}
 library(olsrr)
-plot(backAIC)
 
+plot(backAIC)
 influencePlot(backAIC, id=list(n=3)) 
 ols_plot_resid_lev(backAIC)
 
+# The following observations were identified by both plots as unusual
+## high leverage = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)
+## outlier = 103 (New Zealand), 113 (Peru)
+## influential = 19 (Bosnia/Herzegovina)
 
-# These are the observations both graphs agree on
-
-## high leverage (x) = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)
-## influential (y and x) = 19 (Bosnia/Herzegovina)
-## outlier (y) = 103 (New Zealand), 113 (Peru)
-
-# Remove unusual observations with slice 
-
+# Remove the unusual observations from the data with slice 
 no_highleverage <- backAICdata.plus %>% slice(-c(120,90,47))
 no_influential <- backAICdata.plus %>% slice(-19)
 no_outlier <- backAICdata.plus %>% slice(-c(103,113))
 no_unusual_observations <- backAICdata.plus %>% slice(-c(120,90,47,19,103,113))
-
-
+```
+```{r mylatextable, results = "asis"}
+# Create new models without the unusual observations
+mod0 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=backAICdata.plus)
 mod1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_highleverage)
 mod2 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_influential)
 mod3 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_outlier)
 mod4 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
 
+stargazer(mod0, mod1, mod2, mod3, mod4, object.names = TRUE, title = "Regression Model Results", column.labels = c("Original", "No High Leverage", "No Influential", "No Oultlier", "No Unusual Observations"), type = 'latex', header = FALSE, no.space = TRUE, single.row = TRUE, font.size = "small", column.sep.width = "-15pt")
 ```
-
-```{r mylatextable, results = "asis"}
-library(stargazer)
-stargazer(mod1, mod2, mod3, mod4, object.names = TRUE, title = "Regression Models without (1) High Leverage, (2) Influential, (3) Outlier (4) All Unusual Oberservations", type = 'latex')
-```
-
 ```{r}
-# Re-estimate the models without unusual observations
-
-modeltest <- lm(backAIC, data = no_unusual_observations)
-summary(modeltest)
-summary(backAIC)
-
-# These are the same models?
-# influencePlot(new_model_1, id=list(n=3)) 
-# ols_plot_resid_lev(modeltest)
-
 # New model 
 new_model_1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
 summary(new_model_1)
-
 ```
 
 

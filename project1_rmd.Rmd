@@ -210,7 +210,7 @@ summary(new_model_2)
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
-<<<<<<< HEAD
+
 
 vif(backAIC) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
 
@@ -220,9 +220,9 @@ model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + dat
 vif(model_vif)
 
 vif(new_model_2) # We will remove any variable with a VIF over 10 to satisfy collinearity assumption
-=======
+
 vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
->>>>>>> 6099a40eb87266c618b74527a6581b2b351c6a01
+
 
 # Remove: Cereals, OilCrops, Vegetal Products, and Vegtable Oils 
 new_model_3 <- lm(Deaths~Animal_Fats+Pulses+Obesity, data=no_unusual_observations)

@@ -186,8 +186,6 @@ vif(backAIC) # We will remove any variable with a VIF over 5 to satisfy collinea
 model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
 
 vif(model_vif)
-
-
 ```
 
 

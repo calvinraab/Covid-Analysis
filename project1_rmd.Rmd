@@ -417,6 +417,12 @@ The RMSE on our test partition from the model created with the training partitio
 ### Part 11
 Provide a short (1 paragraph) summary of your overall conclusions/findings.
 
-Things we may want to say: 
-- We learned very quickly that as far as predicting deaths, there were a very limited number of variables that were statistically signifcant, we were cutting down variabels fast. We started with 32 variables and in our first model that was cut to 14. Obesity and Animal_fats appear to have the best prediction power. 
+When examining the data overall, there were not any massive outliers that stood out. We found that many of the food categories that were included in tracking fat sources were not statistically or practically significant. Our model was quickly trimmed down from the initial pool of variables that we considered. Our final model is repeated below, along with the adjusted errors. Through model comparison with AIC and BIC, we found that the best predictors to include were Animal Fats, Cereals, Oilcrops, Pulses, Vegetable Oils, Obesity, and the interaction between Animal Fats and Obesity. 
+
+```{r}
+summary(new_model_4)
+tidy(new_model_4_adjusted)
+```
+
+
 

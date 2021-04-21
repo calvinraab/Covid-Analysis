@@ -292,6 +292,7 @@ new_model_4 <- lm(Deaths~Animal_Fats+Pulses+Obesity+(Pulses*Obesity), data=no_un
 
 summary(new_model_4)
 
+
 # Testing with AIC and BIC 
 library(broom)
 library(AER)

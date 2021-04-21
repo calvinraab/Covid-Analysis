@@ -28,7 +28,7 @@ Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 ```
 
 Data cleaning process.
-```{r, warning = FA:SE}
+```{r, warning = FALSE}
 #select columns that are not filled with zeros
 Fat_Supply_data <- Fat_Supply_Quantity_Data %>% select(Country, `Animal Products`, 
   `Animal fats`, `Cereals - Excluding Beer`, Eggs, `Fish, Seafood`, `Fruits - Excluding Wine`, 

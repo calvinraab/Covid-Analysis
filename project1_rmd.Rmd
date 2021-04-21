@@ -252,7 +252,6 @@ Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
 
 
 
-
 plot(Bor.res, xlab = "Attributes", xaxt = "n", main = "Boruta Algorithim")
 
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)

@@ -273,7 +273,7 @@ new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+
 summary(new_model_2)
 ```
 
-
+Based on Mallows Cp, we decided to go forward with new_model_1 as it had the lower number compared to the original model. We then further narrowed down our model with Baruta, which identified Stimulants, Treenuts, Starchy Roots, Vegetables, Spices, Fruits as unrobust.
 
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.

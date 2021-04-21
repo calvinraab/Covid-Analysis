@@ -42,6 +42,10 @@ Fat_Supply_data <- Fat_Supply_data[!is.na(Fat_Supply_data$Deaths),]
 Fat_Supply_data$Undernourished[Fat_Supply_data$Undernourished == "<2.5"] <- 2.5
 Fat_Supply_data$Undernourished <- as.numeric(Fat_Supply_data$Undernourished)
 
+# replace NAs in Obesity and Undernourished with the median values
+Fat_Supply_data$Obesity[is.na(Fat_Supply_data$Obesity)] <- median(Fat_Supply_data$Obesity, na.rm=TRUE)
+Fat_Supply_data$Undernourished[is.na(Fat_Supply_data$Undernourished)] <- median(Fat_Supply_data$Undernourished, na.rm=TRUE)
+
 data <- Fat_Supply_data
 
 # Here is a dataset that includes the parameters found in backAIC, along with: Country, Population, Confirmed, and Deaths (Using For Analysis) 
@@ -49,9 +53,7 @@ backAICdata.plus <- data_frame(data$`Country`, data$`Animal fats`, data$`Cereals
 
 names(backAICdata.plus) <- c("Country", "Animal_Fats", "Cereals", "Fruits", "Oilcrops", "Pulses", "Spices", "Starchy_Roots", "Stimulants", "Treenuts", "Vegetal Products", "Vegetable_Oils", "Vegetables", "Obesity", "Undernourished", "Population", "Confirmed", "Deaths")
 
-# replace NAs in Obesity and Undernourished with the median values
-backAICdata.plus$Obesity[is.na(backAICdata.plus$Obesity)] <- median(backAICdata.plus$Obesity, na.rm=TRUE)
-backAICdata.plus$Undernourished[is.na(backAICdata.plus$Undernourished)] <- median(backAICdata.plus$Undernourished, na.rm=TRUE)
+
 ```
 
 ### Part 1 
@@ -118,15 +120,13 @@ ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + g
 Estimate a multiple linear regression model that includes all the main effects only (i.e., no interactions nor higher order terms). We will use this model as a baseline. Comment on the statistical and economic significance of your estimates. Also, make sure to provide an interpretation of your estimates.
 ```{r}
 
-m1 <- lm(Deaths ~ ., data = Fat_Supply_data[,-c(1,23)])
-summary(m1)
-
-
-
+# To reduce the number of columns in our dataset to a more workable amount, 
+# we used backward selection with AIC to pick the predictors we wanted to include. 
+# The dataset used for question one used only the selected columns.
 
 model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$`Vegetal Products` + data$`Vegetable Oils` + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
 
-summary(model_all)
+#summary(model_all)
 
 n <- length(data$Deaths)
 
@@ -135,6 +135,7 @@ summary(backAIC)
 # backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
 ```
 
+As can be seen in the model output above, all food categories are statistically significant at the $\alpha = .05$ level. Obesity is also a statistically significant predictor, though Undernourished is surprisingly not statistically significant. The magnitude of the estimates for the food categories is roughly the same, with a 1% increase in fat from each food category leading to a .17 - .19 percent change in expected death rate from COVID-19. What is interesting is that Vegetal Products is the only statistically significant predictor with a negative coefficient, while all other food categories are positive. An increase of 1% in population obesity leads to an increase in .001% of expected COVID-19 death rate.  
 
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
@@ -149,6 +150,11 @@ library(car)
 influencePlot(backAIC, id = list(n=3)) 
 ?influencePlot()
 
+<<<<<<< HEAD
+=======
+influencePlot(backAIC, id=list(n=3)) 
+
+>>>>>>> 7487c00bd7847033ab1dd1434f76afbf9cb7663f
 ols_plot_resid_lev(backAIC)
 
 ```
@@ -180,7 +186,7 @@ plot(Bor.res)
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
-vif(model_all) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
+vif(backAIC) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
 
 
 model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
@@ -196,6 +202,7 @@ For your model in part (5) plot the respective residuals vs. y_hat  and comment 
 
 From the residuals vs fitted plot it can be seen that our residuals appear to spread out the greater our fitted value is. The red smoother than runs through remains within +- .05. 
 ```{r}
+par(mfrow=c(2,2))
 plot(model_vif)
 
 ```
@@ -215,10 +222,8 @@ resettest(model_vif, power = 2, type = "regressor")
 ### Part 8
 For your model in part (5) test for heteroskedasticity and comment on your results. If you identify heteroskedasticy, make sure to account for it before moving on to (9).
 
-Below we will test for heteroskadacity using the ncvTest, bptest, and the gqtest. 
+Below we will test for heteroskedacity using the ncvTest, bptest, and the gqtest. 
 ```{r}
-library(car)
-library(lmtest)
 # Non-constant error variance: Ho: variance = constant 
 ncvTest(model_vif) # Reject Ho
 
@@ -247,6 +252,30 @@ Estimate a model based on all your findings that also includes interaction terms
 ### Part 10
 Evaluate your model performance (from 9) using cross-validation, and also by dividing your data into the traditional 2/3 training and 1/3 testing samples, to evaluate your out-of-sample performance. Comment on your results. 
 ```{r}
+# install.packages("caret")
+# install.packages("lattice")
+library(caret)
+model_final <- model_vif # replace this with the model from 9 once we have it
+
+# split data into 2/3 train 1/3 test
+train <- sample(nrow(data), nrow(data) * 2/3)
+data_train <- data[train,]
+data_test <- data[-train,]
+
+# do 5-fold cross validation on the training partition
+# using model_vif below as placeholder
+fitControl <- trainControl(method="cv", number = 5, savePredictions = T)
+model_cv <- train(Deaths ~  `Cereals - Excluding Beer` + Eggs + `Fish, Seafood` + `Fruits - Excluding Wine` + Meat + `Milk - Excluding Butter` + Offals + Oilcrops + Pulses + Spices + `Starchy Roots` + Stimulants + Treenuts + Vegetables + Obesity + Undernourished + Population, data = data_train, trControl = fitControl, method = "glm")
+
+model_cv
+
+summary(model_cv)
+
+# make predictions on the testing partition
+pred <- predict(model_cv, data_test)
+
+# calculate RMSE
+RMSE(pred, data_test$Deaths)
 
 ```
 

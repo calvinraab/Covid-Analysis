@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Load libraries and import the data. 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 library(readr)
 library(dplyr)
 library(leaps)
@@ -28,9 +28,13 @@ Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
 ```
 
 Data cleaning process.
-```{r}
+```{r, warning = FALSE}
 #select columns that are not filled with zeros
-Fat_Supply_data <- Fat_Supply_Quantity_Data %>% select(Country, `Animal Products`, `Animal fats`, `Cereals - Excluding Beer`, Eggs, `Fish, Seafood`, `Fruits - Excluding Wine`, Meat, `Milk - Excluding Butter`, Offals, Oilcrops, Pulses, Spices, `Starchy Roots`, Stimulants, Treenuts, `Vegetal Products`, `Vegetable Oils`, Vegetables, Obesity, Undernourished, Population, Confirmed, Deaths)
+Fat_Supply_data <- Fat_Supply_Quantity_Data %>% select(Country, `Animal Products`, 
+  `Animal fats`, `Cereals - Excluding Beer`, Eggs, `Fish, Seafood`, `Fruits - Excluding Wine`, 
+  Meat, `Milk - Excluding Butter`, Offals, Oilcrops, Pulses, Spices, `Starchy Roots`, 
+  Stimulants, Treenuts, `Vegetal Products`, `Vegetable Oils`, Vegetables, Obesity, 
+  Undernourished, Population, Confirmed, Deaths)
 
 Fat_Supply_data <- Fat_Supply_data[Fat_Supply_data$Deaths > 0,]
 Fat_Supply_data <- Fat_Supply_data[!is.na(Fat_Supply_data$Deaths),]
@@ -40,15 +44,26 @@ Fat_Supply_data$Undernourished[Fat_Supply_data$Undernourished == "<2.5"] <- 2.5
 Fat_Supply_data$Undernourished <- as.numeric(Fat_Supply_data$Undernourished)
 
 # replace NAs in Obesity and Undernourished with the median values
-Fat_Supply_data$Obesity[is.na(Fat_Supply_data$Obesity)] <- median(Fat_Supply_data$Obesity, na.rm=TRUE)
-Fat_Supply_data$Undernourished[is.na(Fat_Supply_data$Undernourished)] <- median(Fat_Supply_data$Undernourished, na.rm=TRUE)
+Fat_Supply_data$Obesity[is.na(Fat_Supply_data$Obesity)] <- 
+  median(Fat_Supply_data$Obesity, na.rm=TRUE)
+Fat_Supply_data$Undernourished[is.na(Fat_Supply_data$Undernourished)] <- 
+  median(Fat_Supply_data$Undernourished, na.rm=TRUE)
 
 data <- Fat_Supply_data
 
-# Here is a dataset that includes the parameters found in backAIC, along with: Country, Population, Confirmed, and Deaths (Using For Analysis) 
-backAICdata.plus <- data_frame(data$`Country`, data$`Animal fats`, data$`Cereals - Excluding Beer`, data$`Fruits - Excluding Wine`, data$`Oilcrops`, data$`Pulses`, data$`Spices`, data$`Starchy Roots`, data$Stimulants, data$Treenuts, data$`Vegetal Products`, data$`Vegetable Oils`, data$Vegetables, data$Obesity, data$Undernourished, data$Population, data$Confirmed, data$Deaths)
+# Here is a dataset that includes the parameters found in backAIC, 
+# along with: Country, Population, Confirmed, and Deaths (Using For Analysis) 
+backAICdata.plus <- data_frame(data$`Country`, data$`Animal fats`, 
+    data$`Cereals - Excluding Beer`, data$`Fruits - Excluding Wine`, 
+    data$`Oilcrops`, data$`Pulses`, data$`Spices`, data$`Starchy Roots`, 
+    data$Stimulants, data$Treenuts, data$`Vegetal Products`, data$`Vegetable Oils`, 
+    data$Vegetables, data$Obesity, data$Undernourished, data$Population, 
+    data$Confirmed, data$Deaths)
 
-names(backAICdata.plus) <- c("Country", "Animal_Fats", "Cereals", "Fruits", "Oilcrops", "Pulses", "Spices", "Starchy_Roots", "Stimulants", "Treenuts", "Vegetal Products", "Vegetable_Oils", "Vegetables", "Obesity", "Undernourished", "Population", "Confirmed", "Deaths")
+names(backAICdata.plus) <- c("Country", "Animal_Fats", "Cereals", "Fruits", 
+   "Oilcrops", "Pulses", "Spices", "Starchy_Roots", "Stimulants", "Treenuts", 
+   "Vegetal Products", "Vegetable_Oils", "Vegetables", "Obesity", "Undernourished", 
+   "Population", "Confirmed", "Deaths")
 
 
 ```
@@ -108,8 +123,10 @@ apply(backAICdata.plus[,-1], 2, summary)
 
 ```{r}
 library(ggplot2)
-# Percentage of confirmed cases by country - I want to only post the labels of countries that have over a 5% confirmed case level 
-ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + geom_point() + scale_x_discrete(guide = guide_axis(check.overlap = TRUE))
+# Percentage of confirmed cases by country - I want to only post 
+# the labels of countries that have over a 5% confirmed case level 
+ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + 
+  geom_point() + scale_x_discrete(guide = guide_axis(check.overlap = TRUE))
 ```
 
 The above scatterplot details the percentage of confirmed cases in each country. Here it can be seen that the majority of cases lie between zero and 2.5%. From this graphic it can be seen that the highest percentage of covid cases is above 10%. 
@@ -123,61 +140,97 @@ Estimate a multiple linear regression model that includes all the main effects o
 # we used backward selection with AIC to pick the predictors we wanted to include. 
 # The dataset used for question one used only the selected columns.
 
-model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$`Vegetal Products` + data$`Vegetable Oils` + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
+model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + 
+  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + 
+    data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + 
+    data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + 
+    data$Stimulants + data$Treenuts + data$`Vegetal Products` + 
+    data$`Vegetable Oils` + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
 
 #summary(model_all)
 
 n <- length(data$Deaths)
+```
 
+```{r, message = FALSE, results = FALSE}
 backAIC <- step(model_all ,direction="backward", data=data)
+```
+
+```{r}
 # Baseline Model
 summary(backAIC)
-
-# backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
-
 ```
 
 As can be seen in the model output above, all food categories are statistically significant at the $\alpha = .05$ level. Obesity is also a statistically significant predictor, though Undernourished is surprisingly not statistically significant. The magnitude of the estimates for the food categories is roughly the same, with a 1% increase in fat from each food category leading to a .17 - .19 percent change in expected death rate from COVID-19. What is interesting is that Vegetal Products is the only statistically significant predictor with a negative coefficient, while all other food categories are positive. An increase of 1% in population obesity leads to an increase in .001% of expected COVID-19 death rate.  
 
 ### Part 3
-Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
+Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.  
+
+We examined outliers using the base residual plot as well as influence and residual plots from the olsrr package to get a comprehensive overview of which points may be outliers.  
+
 ```{r}
 library(olsrr)
 
+par(mfrow=c(2,2))
 plot(backAIC)
 influencePlot(backAIC, id=list(n=3)) 
 ols_plot_resid_lev(backAIC)
+```
+  
+The following observations were identified by both plots as unusual:  
+* High leverage = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)  
+* Outlier = 103 (New Zealand), 113 (Peru)
+* Influential bad leverage = 19 (Bosnia/Herzegovina)
 
-# The following observations were identified by both plots as unusual
-## high leverage = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)
-## outlier = 103 (New Zealand), 113 (Peru)
-## influential = 19 (Bosnia/Herzegovina)
-
+We next created new models that used reduced versions of the dataset, removing each type of outlier.
+```{r}
 # Remove the unusual observations from the data with slice 
 no_highleverage <- backAICdata.plus %>% slice(-c(120,90,47))
 no_influential <- backAICdata.plus %>% slice(-19)
 no_outlier <- backAICdata.plus %>% slice(-c(103,113))
 no_unusual_observations <- backAICdata.plus %>% slice(-c(120,90,47,19,103,113))
 ```
+
 ```{r mylatextable, results = "asis"}
 # Create new models without the unusual observations
-mod0 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=backAICdata.plus)
-mod1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_highleverage)
-mod2 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_influential)
-mod3 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_outlier)
-mod4 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
+mod0 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+             Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+             Vegetable_Oils+Vegetables+Obesity, data=backAICdata.plus)
+mod1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+             Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+             Vegetable_Oils+Vegetables+Obesity, data=no_highleverage)
+mod2 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+             Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+             Vegetable_Oils+Vegetables+Obesity, data=no_influential)
+mod3 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+             Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+             Vegetable_Oils+Vegetables+Obesity, data=no_outlier)
+mod4 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+             Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+             Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
 
-stargazer(mod0, mod1, mod2, mod3, mod4, object.names = TRUE, title = "Regression Model Results", column.labels = c("Original", "No High Leverage", "No Influential", "No Oultlier", "No Unusual Observations"), type = 'latex', header = FALSE, no.space = TRUE, single.row = TRUE, font.size = "small", column.sep.width = "-15pt")
+stargazer(mod0, mod1, mod2, mod3, mod4, object.names = TRUE, 
+          title = "Regression Model Results", column.labels = 
+            c("Original", "No High Leverage", "No Influential", 
+              "No Oultlier", "No Unusual Observations"), type = 'latex', 
+          header = FALSE, no.space = TRUE, single.row = TRUE, 
+          font.size = "small", column.sep.width = "-15pt")
 ```
+  
+As can be seen in the table above, the R-squared of the model that removes all outliers and high leverage points is a noticeable improvement over the base model including all data points. We noticed that the estimates for the coefficients did not change much between models, indicating that while the outliers were negatively affecting the accuracy metrics of the model, they were not changing the estimates for the parameters themselves. We decided to remove the outliers and leverage points because we wanted to be able to compare future models against each other fairly, without the outliers influencing the accuracy metrics of those models.  
+
 ```{r}
 # New model 
-new_model_1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
+new_model_1 <- lm(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
+                    Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
+                    Vegetable_Oils+Vegetables+Obesity, data=no_unusual_observations)
 summary(new_model_1)
 ```
 
 
 ### Part 4
 Use Mallows Cp for identifying which terms you will keep in the model (based on part 3) and also use the Boruta algorithm for variable selection. Based on the two results, determine which subset of predictors you will keep.
+
 ```{r, message=FALSE}
 # Since Mallows CP has a lower number when testing our new_model_1, we will proceed with that model. 
 ols_mallows_cp(new_model_1, model_all)
@@ -186,14 +239,13 @@ ols_mallows_cp(backAIC, model_all)
 # install.packages("Boruta")
 library(Boruta)
 
-Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, doTrace = 2 )
-# plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
+plot(Bor.res, xlab = "Attributes", xaxt = "n", main = "Boruta Algorithim")
 lz<-lapply(1:ncol(Bor.res$ImpHistory),function(i)
 Bor.res$ImpHistory[is.finite(Bor.res$ImpHistory[,i]),i])
 names(lz) <- colnames(Bor.res$ImpHistory)
 Labels <- sort(sapply(lz,median))
-#plot(Bor.res, xlab = "Attributes", main = "Boruta Algorithim")
-# Fix labels
+axis(side = 1,las=2,labels = names(Labels),
+at = 1:ncol(Bor.res$ImpHistory), cex.axis = 0.7)
 
 # Testing to see which variables we want to remove
 attStats(Bor.res)
@@ -210,24 +262,35 @@ summary(new_model_2)
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
+<<<<<<< HEAD
 
 
 vif(backAIC) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
 
 
 model_vif <- lm(data$Deaths ~  data$`Cereals - Excluding Beer` + data$Eggs + data$`Fish, Seafood` + data$`Fruits - Excluding Wine` + data$Meat + data$`Milk - Excluding Butter` + data$Offals + data$Oilcrops + data$Pulses + data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + data$Vegetables + data$Obesity + data$Undernourished + data$Population)
+=======
+vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
+>>>>>>> 56a90fa94c6d8d5a8fe6d20e83ce4694f1a6960f
 
-vif(model_vif)
+# Vegetal products has the highest VIF, so we remove that and repeat
+vif_1 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity, data=no_unusual_observations)
+vif(vif_1)
+```
 
+<<<<<<< HEAD
 vif(new_model_2) # We will remove any variable with a VIF over 10 to satisfy collinearity assumption
 
 vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
 
+=======
+After removing Vegetal Products, all other predictors have a VIF under 5, so we will keep all of those.
+>>>>>>> 56a90fa94c6d8d5a8fe6d20e83ce4694f1a6960f
 
-# Remove: Cereals, OilCrops, Vegetal Products, and Vegtable Oils 
-new_model_3 <- lm(Deaths~Animal_Fats+Pulses+Obesity, data=no_unusual_observations)
+```{r}
+new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses + Vegetable_Oils+Obesity, data=no_unusual_observations)
 
-#New MOdel 
+#New Model 
 summary(new_model_3)
 
 ```

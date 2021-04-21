@@ -1,8 +1,10 @@
 ---
-title: "Project1RMD"
-author: "Group"
-date: "4/15/2021"
-output: html_document
+title: "Project 1"
+author: "Nancie Kung, Calvin Raab, David Collier and Eitan Shimonovitz"
+date: "4/21/2021"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -21,7 +23,6 @@ library(corrplot)
 library(car)
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
-glimpse(Fat_Supply_Quantity_Data)
 ```
 
 Data cleaning process.

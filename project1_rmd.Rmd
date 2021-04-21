@@ -9,9 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Here is where we can put our work. I imagine this is what we will turn in. 
-
-Here I am uploading the original datasets: 
+Load libraries and import the data. 
 ```{r}
 library(readr)
 library(dplyr)
@@ -23,14 +21,10 @@ library(corrplot)
 library(car)
 
 Fat_Supply_Quantity_Data <- read_csv("Fat_Supply_Quantity_Data.csv")
-Food_Supply_Quantity_kg_Data <- read_csv("Food_Supply_Quantity_kg_Data.csv")
-Food_Supply_kcal_Data <- read_csv("Food_Supply_kcal_Data.csv")
-Protein_Supply_Quantity_Data <- read_csv("Protein_Supply_Quantity_Data.csv")
-Supply_Food_Data_Descriptions <- read_csv("Supply_Food_Data_Descriptions.csv")
 glimpse(Fat_Supply_Quantity_Data)
 ```
 
-Data cleaning process. Here we can clean up that data and get it cleaned to the point where we will be able to work with it. 
+Data cleaning process.
 ```{r}
 #select columns that are not filled with zeros
 Fat_Supply_data <- Fat_Supply_Quantity_Data %>% select(Country, `Animal Products`, `Animal fats`, `Cereals - Excluding Beer`, Eggs, `Fish, Seafood`, `Fruits - Excluding Wine`, Meat, `Milk - Excluding Butter`, Offals, Oilcrops, Pulses, Spices, `Starchy Roots`, Stimulants, Treenuts, `Vegetal Products`, `Vegetable Oils`, Vegetables, Obesity, Undernourished, Population, Confirmed, Deaths)
@@ -89,7 +83,7 @@ ggplot(fat_data, aes(x = variable, y = value)) +
   ggtitle("Boxplot of Percentage of Fat in Diet from Food Categories")
 ```
 
-From the above boxplots, we can see that Vegetal Products and Vegetable Oils are major sources of fat for all countries, whike the average values for other categories are low. We can also see that Oilcrops has a relatively large amount of high outliers compared to other groups.  
+From the above boxplots, we can see that Vegetal Products and Vegetable Oils are major sources of fat for all countries, while the average values for other categories are low. We can also see that Oilcrops has a relatively large amount of high outliers compared to other groups.  
 
 ```{r}
 # correlation plot of all variables
@@ -112,8 +106,10 @@ apply(backAICdata.plus[,-1], 2, summary)
 ```{r}
 library(ggplot2)
 # Percentage of confirmed cases by country - I want to only post the labels of countries that have over a 5% confirmed case level 
-ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + geom_point() + geom_text(check_overlap = TRUE) + scale_x_discrete(guide = guide_axis(check.overlap = TRUE))
+ggplot(data = backAICdata.plus, aes(x=Country, y=Confirmed, label= Country)) + geom_point() + scale_x_discrete(guide = guide_axis(check.overlap = TRUE))
 ```
+
+The above scatterplot details the percentage of confirmed cases in each country. Here it can be seen that the majority of cases lie between zero and 2.5%. From this graphic it can be seen that the highest percentage of covid cases is above 10%. 
 
 
 ### Part 2
@@ -131,19 +127,17 @@ model_all <- lm(data$Deaths ~ data$`Animal Products` + data$`Animal fats` + data
 n <- length(data$Deaths)
 
 backAIC <- step(model_all ,direction="backward", data=data)
+# Baseline Model
 summary(backAIC)
+
 # backBIC <- step(model_all ,direction="backward", data=data, k = log(n))
 
-# Baseline Model 
-backAIC
 ```
 
 As can be seen in the model output above, all food categories are statistically significant at the $\alpha = .05$ level. Obesity is also a statistically significant predictor, though Undernourished is surprisingly not statistically significant. The magnitude of the estimates for the food categories is roughly the same, with a 1% increase in fat from each food category leading to a .17 - .19 percent change in expected death rate from COVID-19. What is interesting is that Vegetal Products is the only statistically significant predictor with a negative coefficient, while all other food categories are positive. An increase of 1% in population obesity leads to an increase in .001% of expected COVID-19 death rate.  
 
 ### Part 3
 Identify if there are any outliers, high leverage, and or influential observations worth removing. If so, remove them but justify your reason for doing so and re-estimate your model.
-
-
 ```{r}
 
 # https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
@@ -192,8 +186,6 @@ summary(new_model_1)
 ### Part 4
 Use Mallows Cp for identifying which terms you will keep in the model (based on part 3) and also use the Boruta algorithm for variable selection. Based on the two results, determine which subset of predictors you will keep.
 ```{r}
-# Here we will use Mallows CP and Boruta which will estimate a new model.
-# Mallows CP - Here we will be testing between the two models that we created part 3
 # Since Mallows CP has a lower number when testing our new_model_1, we will proceed with that model. 
 ols_mallows_cp(new_model_1, model_all)
 ols_mallows_cp(backAIC, model_all)
@@ -216,7 +208,6 @@ sorted_vars <- attStats(Bor.res)[order(-attStats(Bor.res)$meanImp),]
 print(sorted_vars)
 # We will reject: Stimulants, Treenuts, Starchy Roots, Vegetables, Spices, Fruits
 
-
 # Our New Model 
 new_model_2 <- lm(Deaths~Animal_Fats+Cereals+Oilcrops+Pulses+`Vegetal Products`+Vegetable_Oils+Obesity, data=no_unusual_observations)
 summary(new_model_2)
@@ -226,10 +217,10 @@ summary(new_model_2)
 ### Part 5
 Test for multicollinearity using VIF on the model from (4) . Based on the test, remove any appropriate variables, and estimate a new regression model based on these findings.
 ```{r}
-vif(new_model_2) # We will remove any variable with a VIF over 10 to satisfy collinearity assumption
+vif(new_model_2) # We will remove any variable with a VIF over 5 to satisfy collinearity assumption
 
-# Remove: OilCrops, Vegetal Products, and Vegtable Oils 
-new_model_3 <- lm(Deaths~Animal_Fats+Cereals+Pulses+Obesity, data=no_unusual_observations)
+# Remove: Cereals, OilCrops, Vegetal Products, and Vegtable Oils 
+new_model_3 <- lm(Deaths~Animal_Fats+Pulses+Obesity, data=no_unusual_observations)
 
 #New MOdel 
 summary(new_model_3)
@@ -250,7 +241,7 @@ plot(new_model_3)
 ### Part 7
 For your model in part (5) perform a RESET test and comment on your results.
 
-Here we tested our model by testing our model against a quadratic. Our result is a p-value of 0.1389 which means we should consider higher order powers. 
+Here we tested our model by testing our model against a quadratic. Our result is a p-value of 0.7077 which means we should consider higher order powers. 
 ```{r}
 library(lmtest)
 
@@ -261,17 +252,13 @@ resettest(new_model_3, power = 2, type = "regressor")
 ### Part 8
 For your model in part (5) test for heteroskedasticity and comment on your results. If you identify heteroskedasticy, make sure to account for it before moving on to (9).
 
-Below we will test for heteroskedacity using the ncvTest, bptest, and the gqtest. 
+Below we will test for heteroskedacity using the ncvTest and bptest. 
 ```{r}
 # Non-constant error variance: Ho: variance = constant 
 ncvTest(new_model_3) # Reject Ho
 
 # BP test 
 bptest(new_model_3) #Reject Ho
-
-# GQ Test  (not too sure what to order by here)
-# gqtest(new_model_3, point = .5, alternative = "greater", order.by = model_vif$Obesity) 
-#need to figure out what to order by 
 ```
 
 From the above tests it can be seen that heteroskedacity is present in our data. In order to account for that we will now run our model with robust white standard errors. Here our new standard errors can be found. 
@@ -286,8 +273,37 @@ tidy(new_model_3_adjusted)
 ### Part 9
 Estimate a model based on all your findings that also includes interaction terms (if appropriate) and if needed, any higher power terms. Comment on the performance of this model compared to your other models. Make sure to use AIC and BIC for model comparison.
 ```{r}
+# Our RESET test suggested there may be an existence of higher power terms, which will be tested here. Specifically we will be checking our variables against them in quadratic form. 
+
+higher_power <- lm(Deaths~Animal_Fats+Pulses+Obesity+I(Animal_Fats^2)+I(Pulses^2)+I(Obesity^2), data=no_unusual_observations)
+summary(higher_power) #None of the higher powers are statistically significant
+
+interaction_terms <- lm(Deaths~Animal_Fats+Pulses+Obesity+(Animal_Fats*Pulses)+(Animal_Fats*Obesity)+(Pulses*Obesity), data=no_unusual_observations)
+
+summary(interaction_terms) #Pulses:Obesity is statistically significant, this will be added to a new model
+
+new_model_4 <- lm(Deaths~Animal_Fats+Pulses+Obesity+(Pulses*Obesity), data=no_unusual_observations)
+
+summary(new_model_4)
+
+# Testing with AIC and BIC 
+library(broom)
+library(AER)
+AIC(new_model_1, new_model_2, new_model_3, new_model_4)
+BIC(new_model_1, new_model_2, new_model_3, new_model_4)
+
+# Adding Robust Standard Errors to this new model since we know heteroskedasticity is present 
+
+cov2 <- hccm(new_model_4, type = "hc1")
+#Have our model account for those errors. 
+new_model_4_adjusted <- coeftest(new_model_4, vcov. = cov2)
+library(broom)
+tidy(new_model_4_adjusted)
 
 ```
+
+Above we first tested for higher powers because the RESET test suggested we should test our model with quadratic variables. We found no statistically significant powers. After testing for higher powers we tested for interaction terms. The interaction between Pulses and Obesity was statistically significant so it was added to the model, creating new_model_4. We then went and tested all of our models with AIC and BIC and it was confirmed that new_model_4 had the lowest AIC and BIC, leading us to believe that we had found the best model. In part 8 we learned that heteroskadacity is present in our data, we took this into cosideration and calculated the robust standard errors for new_model_4, which created new_model_4_adjusted. 
+
 
 ### Part 10
 Evaluate your model performance (from 9) using cross-validation, and also by dividing your data into the traditional 2/3 training and 1/3 testing samples, to evaluate your out-of-sample performance. Comment on your results. 
@@ -295,7 +311,7 @@ Evaluate your model performance (from 9) using cross-validation, and also by div
 # install.packages("caret")
 # install.packages("lattice")
 library(caret)
-model_final <- new_model_3 # replace this with the model from 9 once we have it
+model_final <- new_model_4 # replace this with the model from 9 once we have it
 
 # split data into 2/3 train 1/3 test
 train <- sample(nrow(data), nrow(data) * 2/3)
@@ -323,4 +339,6 @@ RMSE(pred, data_test$Deaths)
 ### Part 11
 Provide a short (1 paragraph) summary of your overall conclusions/findings.
 
+Things we may want to say: 
+- We learned very quickly that as far as predicting deaths, there were a very limited number of variables that were statistically signifcant, we were cutting down variabels fast. We started with 32 variables and in our first model that was cut to 14. Obesity and Animal_fats appear to have the best prediction power. 
 

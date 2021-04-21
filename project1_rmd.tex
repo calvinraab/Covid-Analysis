@@ -1,0 +1,1338 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Project 1},
+  pdfauthor={Nancie Kung, Calvin Raab, David Collier and Eitan Shimonovitz},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Project 1}
+\author{Nancie Kung, Calvin Raab, David Collier and Eitan Shimonovitz}
+\date{4/21/2021}
+
+\begin{document}
+\maketitle
+
+Load libraries and import the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(readr)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(leaps)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(reshape2)}
+\KeywordTok{library}\NormalTok{(scales)}
+\KeywordTok{library}\NormalTok{(corrplot)}
+\KeywordTok{library}\NormalTok{(car)}
+\KeywordTok{library}\NormalTok{(stargazer)}
+\KeywordTok{library}\NormalTok{(lmtest)}
+\KeywordTok{library}\NormalTok{(broom)}
+\KeywordTok{library}\NormalTok{(AER)}
+\KeywordTok{library}\NormalTok{(caret)}
+
+\NormalTok{Fat_Supply_Quantity_Data <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"Fat_Supply_Quantity_Data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Data cleaning process.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#select columns that are not filled with zeros}
+\NormalTok{Fat_Supply_data <-}\StringTok{ }\NormalTok{Fat_Supply_Quantity_Data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select}\NormalTok{(Country, }\StringTok{`}\DataTypeTok{Animal Products}\StringTok{`}\NormalTok{, }
+  \StringTok{`}\DataTypeTok{Animal fats}\StringTok{`}\NormalTok{, }\StringTok{`}\DataTypeTok{Cereals - Excluding Beer}\StringTok{`}\NormalTok{, Eggs, }\StringTok{`}\DataTypeTok{Fish, Seafood}\StringTok{`}\NormalTok{, }\StringTok{`}\DataTypeTok{Fruits - Excluding Wine}\StringTok{`}\NormalTok{, }
+\NormalTok{  Meat, }\StringTok{`}\DataTypeTok{Milk - Excluding Butter}\StringTok{`}\NormalTok{, Offals, Oilcrops, Pulses, Spices, }\StringTok{`}\DataTypeTok{Starchy Roots}\StringTok{`}\NormalTok{, }
+\NormalTok{  Stimulants, Treenuts, }\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\NormalTok{, }\StringTok{`}\DataTypeTok{Vegetable Oils}\StringTok{`}\NormalTok{, Vegetables, Obesity, }
+\NormalTok{  Undernourished, Population, Confirmed, Deaths)}
+
+\NormalTok{Fat_Supply_data <-}\StringTok{ }\NormalTok{Fat_Supply_data[Fat_Supply_data}\OperatorTok{$}\NormalTok{Deaths }\OperatorTok{>}\StringTok{ }\DecValTok{0}\NormalTok{,]}
+\NormalTok{Fat_Supply_data <-}\StringTok{ }\NormalTok{Fat_Supply_data[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(Fat_Supply_data}\OperatorTok{$}\NormalTok{Deaths),]}
+
+
+\NormalTok{Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished[Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished }\OperatorTok{==}\StringTok{ "<2.5"}\NormalTok{] <-}\StringTok{ }\FloatTok{2.5}
+\NormalTok{Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished)}
+
+\CommentTok{# replace NAs in Obesity and Undernourished with the median values}
+\NormalTok{Fat_Supply_data}\OperatorTok{$}\NormalTok{Obesity[}\KeywordTok{is.na}\NormalTok{(Fat_Supply_data}\OperatorTok{$}\NormalTok{Obesity)] <-}\StringTok{ }
+\StringTok{  }\KeywordTok{median}\NormalTok{(Fat_Supply_data}\OperatorTok{$}\NormalTok{Obesity, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished[}\KeywordTok{is.na}\NormalTok{(Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished)] <-}\StringTok{ }
+\StringTok{  }\KeywordTok{median}\NormalTok{(Fat_Supply_data}\OperatorTok{$}\NormalTok{Undernourished, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{data <-}\StringTok{ }\NormalTok{Fat_Supply_data}
+
+\CommentTok{# Here is a dataset that includes the parameters found in backAIC, }
+\CommentTok{# along with: Country, Population, Confirmed, and Deaths (Using For Analysis) }
+\NormalTok{backAICdata.plus <-}\StringTok{ }\KeywordTok{data_frame}\NormalTok{(data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Country}\StringTok{`}\NormalTok{, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Animal fats}\StringTok{`}\NormalTok{, }
+\NormalTok{    data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Cereals - Excluding Beer}\StringTok{`}\NormalTok{, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Fruits - Excluding Wine}\StringTok{`}\NormalTok{, }
+\NormalTok{    data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Oilcrops}\StringTok{`}\NormalTok{, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Pulses}\StringTok{`}\NormalTok{, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Spices}\StringTok{`}\NormalTok{, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Starchy Roots}\StringTok{`}\NormalTok{, }
+\NormalTok{    data}\OperatorTok{$}\NormalTok{Stimulants, data}\OperatorTok{$}\NormalTok{Treenuts, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\NormalTok{, data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Vegetable Oils}\StringTok{`}\NormalTok{, }
+\NormalTok{    data}\OperatorTok{$}\NormalTok{Vegetables, data}\OperatorTok{$}\NormalTok{Obesity, data}\OperatorTok{$}\NormalTok{Undernourished, data}\OperatorTok{$}\NormalTok{Population, }
+\NormalTok{    data}\OperatorTok{$}\NormalTok{Confirmed, data}\OperatorTok{$}\NormalTok{Deaths)}
+
+\KeywordTok{names}\NormalTok{(backAICdata.plus) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Country"}\NormalTok{, }\StringTok{"Animal_Fats"}\NormalTok{, }\StringTok{"Cereals"}\NormalTok{, }\StringTok{"Fruits"}\NormalTok{, }
+   \StringTok{"Oilcrops"}\NormalTok{, }\StringTok{"Pulses"}\NormalTok{, }\StringTok{"Spices"}\NormalTok{, }\StringTok{"Starchy_Roots"}\NormalTok{, }\StringTok{"Stimulants"}\NormalTok{, }\StringTok{"Treenuts"}\NormalTok{, }
+   \StringTok{"Vegetal Products"}\NormalTok{, }\StringTok{"Vegetable_Oils"}\NormalTok{, }\StringTok{"Vegetables"}\NormalTok{, }\StringTok{"Obesity"}\NormalTok{, }\StringTok{"Undernourished"}\NormalTok{, }
+   \StringTok{"Population"}\NormalTok{, }\StringTok{"Confirmed"}\NormalTok{, }\StringTok{"Deaths"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{part-1}{%
+\subsubsection{Part 1}\label{part-1}}
+
+Provide a descriptive analysis of your variables. This should include
+histograms and fitted distributions, correlation plot, boxplots,
+scatterplots, and statistical summaries (e.g., the five-number summary).
+All figures must include comments.
+
+Columns in dataset:\\
+* Fat Supply Measures - Average percentage (out of 100) of fat in diet
+that comes from each category of food - Categories included:
+Animal\_Fats, Cereals, Fruits, Oilcrops, Pulses, Spices, Starchy\_Roots,
+Stimulants, Treenuts, Vegetal Products, Vegetable\_oils, and Vegetables
+
+\begin{itemize}
+\tightlist
+\item
+  Population Health Measures - Percentage of the population that falls
+  into each category
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Obesity and Undernourished
+  \end{itemize}
+\item
+  Population and COVID Measures
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Population - Population of country
+  \item
+    Confirmed - Percentage of population with a confirmed positive test
+    for COVID-19
+  \item
+    Deaths - Percentage of population that died from COVID-19
+  \end{itemize}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# create a boxplot of food categories}
+
+
+\CommentTok{# melt the data into long form}
+\NormalTok{fat_data <-}\StringTok{ }\KeywordTok{melt}\NormalTok{(backAICdata.plus[,}\DecValTok{1}\OperatorTok{:}\DecValTok{13}\NormalTok{], }\DataTypeTok{id =} \StringTok{"Country"}\NormalTok{)}
+
+\CommentTok{# create boxplots}
+\KeywordTok{ggplot}\NormalTok{(fat_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ variable, }\DataTypeTok{y =}\NormalTok{ value)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{45}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{labels =} \KeywordTok{label_percent}\NormalTok{(}\DataTypeTok{scale =} \DecValTok{1}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Food Category"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Percentage of Fat"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of Percentage of Fat in Diet from Food Categories"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+From the above boxplots, we can see that Vegetal Products and Vegetable
+Oils are major sources of fat for all countries, while the average
+values for other categories are low. We can also see that Oilcrops has a
+relatively large amount of high outliers compared to other groups.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# correlation plot of all variables}
+\KeywordTok{library}\NormalTok{(corrplot)}
+\KeywordTok{corrplot}\NormalTok{(}\KeywordTok{cor}\NormalTok{(backAICdata.plus[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]), }\DataTypeTok{method =} \StringTok{"circle"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+From the above correlation plot, we can see some interesting
+correlations between some food groups, such as between Vetegal Procucts
+and Animal Fats. We also see that Obesity and Undernourished are
+strongly negatively correlated, which makes sense, and that there is a
+very high correlation between Confirmed Cases and Deaths, which is also
+to be expected.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# five number summaries for each numeric column}
+
+\KeywordTok{apply}\NormalTok{(backAICdata.plus[,}\OperatorTok{-}\DecValTok{1}\NormalTok{], }\DecValTok{2}\NormalTok{, summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Animal_Fats   Cereals    Fruits  Oilcrops    Pulses    Spices
+## Min.       0.034800  0.990800 0.0373000  0.064000 0.0000000 0.0000000
+## 1st Qu.    1.652325  1.957100 0.2365750  0.778650 0.0466250 0.0377750
+## Median     3.307600  3.250700 0.3660000  1.512000 0.1423000 0.1000500
+## Mean       4.226423  4.346977 0.5428968  2.825626 0.2654897 0.2845878
+## 3rd Qu.    6.381550  5.587000 0.5734500  3.218400 0.3518250 0.3418250
+## Max.      14.937300 18.376300 9.6727000 27.189200 2.6909000 2.6851000
+##         Starchy_Roots Stimulants  Treenuts Vegetal Products Vegetable_Oils
+## Min.        0.0124000  0.0000000 0.0000000         13.09820        4.95490
+## 1st Qu.     0.0472750  0.1171500 0.1451250         22.84708       14.77958
+## Median      0.0846000  0.4103000 0.5204000         29.13450       18.56225
+## Mean        0.2158314  0.6533244 0.7410333         29.29365       19.05175
+## 3rd Qu.     0.1941250  0.8760750 0.9371250         35.24250       23.81273
+## Max.        2.1636000  3.3838000 4.9756000         44.98180       36.41860
+##         Vegetables  Obesity Undernourished Population    Confirmed       Deaths
+## Min.     0.0263000  2.10000           2.50      98000  0.000852111 3.515586e-05
+## 1st Qu.  0.1808000  8.92500           2.50    3534000  0.164875969 2.680607e-03
+## Median   0.2521500 21.30000           6.40   10689500  1.234634653 1.455834e-02
+## Mean     0.3090872 18.70449          10.95   47797346  2.124024943 4.138856e-02
+## 3rd Qu.  0.3660250 25.70000          13.40   34390750  3.570670605 7.313225e-02
+## Max.     1.1538000 37.30000          59.60 1402385000 10.408199357 1.854277e-01
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\CommentTok{# Percentage of confirmed cases by country - I want to only post }
+\CommentTok{# the labels of countries that have over a 5% confirmed case level }
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ backAICdata.plus, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Country, }\DataTypeTok{y=}\NormalTok{Confirmed, }\DataTypeTok{label=}\NormalTok{ Country)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{guide =} \KeywordTok{guide_axis}\NormalTok{(}\DataTypeTok{check.overlap =} \OtherTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+The above scatterplot details the percentage of confirmed cases in each
+country. Here it can be seen that the majority of cases lie between zero
+and 2.5\%. From this graphic it can be seen that the highest percentage
+of covid cases is above 10\%.
+
+\hypertarget{part-2}{%
+\subsubsection{Part 2}\label{part-2}}
+
+Estimate a multiple linear regression model that includes all the main
+effects only (i.e., no interactions nor higher order terms). We will use
+this model as a baseline. Comment on the statistical and economic
+significance of your estimates. Also, make sure to provide an
+interpretation of your estimates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# To reduce the number of columns in our dataset to a more workable amount, }
+\CommentTok{# we used backward selection with AIC to pick the predictors we wanted to include. }
+\CommentTok{# The dataset used for question one used only the selected columns.}
+
+\NormalTok{model_all <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(data}\OperatorTok{$}\NormalTok{Deaths }\OperatorTok{~}\StringTok{ }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Animal Products}\StringTok{`} \OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Animal fats}\StringTok{`} \OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Cereals - Excluding Beer}\StringTok{`} \OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Eggs }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Fish, Seafood}\StringTok{`} \OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Fruits - Excluding Wine}\StringTok{`} \OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Meat }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Milk - Excluding Butter}\StringTok{`} \OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{data}\OperatorTok{$}\NormalTok{Offals }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Oilcrops }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Spices }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Starchy Roots}\StringTok{`} \OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{data}\OperatorTok{$}\NormalTok{Stimulants }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Treenuts }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`} \OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{data}\OperatorTok{$}\StringTok{`}\DataTypeTok{Vegetable Oils}\StringTok{`} \OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Vegetables }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Undernourished }\OperatorTok{+}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{Population)}
+
+\CommentTok{#summary(model_all)}
+
+\NormalTok{n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(data}\OperatorTok{$}\NormalTok{Deaths)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{backAIC <-}\StringTok{ }\KeywordTok{step}\NormalTok{(model_all ,}\DataTypeTok{direction=}\StringTok{"backward"}\NormalTok{, }\DataTypeTok{data=}\NormalTok{data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Baseline Model}
+\KeywordTok{summary}\NormalTok{(backAIC)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = data$Deaths ~ data$`Animal fats` + data$`Cereals - Excluding Beer` + 
+##     data$`Fruits - Excluding Wine` + data$Oilcrops + data$Pulses + 
+##     data$Spices + data$`Starchy Roots` + data$Stimulants + data$Treenuts + 
+##     data$`Vegetal Products` + data$`Vegetable Oils` + data$Vegetables + 
+##     data$Obesity)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.108313 -0.021927 -0.003573  0.014199  0.101676 
+## 
+## Coefficients:
+##                                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                      0.0129970  0.0265602   0.489 0.625356    
+## data$`Animal fats`               0.0040506  0.0013450   3.012 0.003077 ** 
+## data$`Cereals - Excluding Beer`  0.1691210  0.0484157   3.493 0.000637 ***
+## data$`Fruits - Excluding Wine`   0.1715263  0.0489531   3.504 0.000614 ***
+## data$Oilcrops                    0.1690407  0.0482729   3.502 0.000618 ***
+## data$Pulses                      0.1612441  0.0484375   3.329 0.001111 ** 
+## data$Spices                      0.1755959  0.0504123   3.483 0.000659 ***
+## data$`Starchy Roots`             0.1681581  0.0480719   3.498 0.000626 ***
+## data$Stimulants                  0.1798248  0.0496084   3.625 0.000402 ***
+## data$Treenuts                    0.1701807  0.0488130   3.486 0.000652 ***
+## data$`Vegetal Products`         -0.1702633  0.0483737  -3.520 0.000581 ***
+## data$`Vegetable Oils`            0.1702400  0.0482837   3.526 0.000569 ***
+## data$Vegetables                  0.1629736  0.0492373   3.310 0.001183 ** 
+## data$Obesity                     0.0014200  0.0004507   3.151 0.001985 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.03818 on 142 degrees of freedom
+## Multiple R-squared:  0.4464, Adjusted R-squared:  0.3957 
+## F-statistic: 8.806 on 13 and 142 DF,  p-value: 5.175e-13
+\end{verbatim}
+
+As can be seen in the model output above, all food categories are
+statistically significant at the \(\alpha = .05\) level. Obesity is also
+a statistically significant predictor, though Undernourished is
+surprisingly not statistically significant. The magnitude of the
+estimates for the food categories is roughly the same, with a 1\%
+increase in fat from each food category leading to a .17 - .19 percent
+change in expected death rate from COVID-19. What is interesting is that
+Vegetal Products is the only statistically significant predictor with a
+negative coefficient, while all other food categories are positive. An
+increase of 1\% in population obesity leads to an increase in .001\% of
+expected COVID-19 death rate.
+
+\hypertarget{part-3}{%
+\subsubsection{Part 3}\label{part-3}}
+
+Identify if there are any outliers, high leverage, and or influential
+observations worth removing. If so, remove them but justify your reason
+for doing so and re-estimate your model.
+
+We examined for unusual observations using the base residual plot as
+well as influence and residual plots from the olsrr package to get a
+comprehensive overview of which points may be unusual observations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(olsrr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'olsrr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:datasets':
+## 
+##     rivers
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(backAIC)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{influencePlot}\NormalTok{(backAIC, }\DataTypeTok{id=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{n=}\DecValTok{3}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         StudRes        Hat        CookD
+## 19   2.66751268 0.20538150 0.1259432991
+## 47   0.07737851 0.44868938 0.0003505201
+## 90   1.08331865 0.39049322 0.0536400049
+## 103 -3.06088780 0.09027770 0.0627145547
+## 113  2.78127866 0.03961905 0.0217618173
+## 120  0.14167875 0.76304796 0.0046492212
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ols_plot_resid_lev}\NormalTok{(backAIC)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+The following observations were identified by both plots as unusual:\\
+* High leverage = 120 (Rwanda), 90 (Maldives), 47 (Ethiopia)\\
+* Outlier = 103 (New Zealand), 113 (Peru) * Influential = 19
+(Bosnia/Herzegovina)
+
+We next created new models that used reduced versions of the dataset,
+removing each type of unusual observation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Remove the unusual observations from the data with slice }
+\NormalTok{no_highleverage <-}\StringTok{ }\NormalTok{backAICdata.plus }\OperatorTok{%>%}\StringTok{ }\KeywordTok{slice}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{90}\NormalTok{,}\DecValTok{47}\NormalTok{))}
+\NormalTok{no_influential <-}\StringTok{ }\NormalTok{backAICdata.plus }\OperatorTok{%>%}\StringTok{ }\KeywordTok{slice}\NormalTok{(}\OperatorTok{-}\DecValTok{19}\NormalTok{)}
+\NormalTok{no_outlier <-}\StringTok{ }\NormalTok{backAICdata.plus }\OperatorTok{%>%}\StringTok{ }\KeywordTok{slice}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{103}\NormalTok{,}\DecValTok{113}\NormalTok{))}
+\NormalTok{no_unusual_observations <-}\StringTok{ }\NormalTok{backAICdata.plus }\OperatorTok{%>%}\StringTok{ }\KeywordTok{slice}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{120}\NormalTok{,}\DecValTok{90}\NormalTok{,}\DecValTok{47}\NormalTok{,}\DecValTok{19}\NormalTok{,}\DecValTok{103}\NormalTok{,}\DecValTok{113}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Create new models without the unusual observations}
+\NormalTok{mod0 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{             }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{             }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{backAICdata.plus)}
+\NormalTok{mod1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{             }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{             }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_highleverage)}
+\NormalTok{mod2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{             }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{             }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_influential)}
+\NormalTok{mod3 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{             }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{             }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_outlier)}
+\NormalTok{mod4 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{             }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{             }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+
+\KeywordTok{stargazer}\NormalTok{(mod0, mod1, mod2, mod3, mod4, }\DataTypeTok{object.names =} \OtherTok{TRUE}\NormalTok{, }
+          \DataTypeTok{title =} \StringTok{"Regression Model Results"}\NormalTok{, }\DataTypeTok{column.labels =} 
+            \KeywordTok{c}\NormalTok{(}\StringTok{"Original"}\NormalTok{, }\StringTok{"No High Leverage"}\NormalTok{, }\StringTok{"No Influential"}\NormalTok{, }
+              \StringTok{"No Oultlier"}\NormalTok{, }\StringTok{"No Unusual Observations"}\NormalTok{), }\DataTypeTok{type =} \StringTok{'latex'}\NormalTok{, }
+          \DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{no.space =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{single.row =} \OtherTok{TRUE}\NormalTok{, }
+          \DataTypeTok{font.size =} \StringTok{"small"}\NormalTok{, }\DataTypeTok{column.sep.width =} \StringTok{"-15pt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[!htbp] \centering 
+  \caption{Regression Model Results} 
+  \label{} 
+\small 
+\begin{tabular}{@{\extracolsep{-15pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{5}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-6} 
+\\[-1.8ex] & \multicolumn{5}{c}{Deaths} \\ 
+ & Original & No High Leverage & No Influential & No Oultlier & No Unusual Observations \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
+\\[-1.8ex] & mod0 & mod1 & mod2 & mod3 & mod4\\ 
+\hline \\[-1.8ex] 
+ Animal\_Fats & 0.004$^{***}$ (0.001) & 0.004$^{***}$ (0.001) & 0.004$^{***}$ (0.001) & 0.005$^{***}$ (0.001) & 0.005$^{***}$ (0.001) \\ 
+  Cereals & 0.169$^{***}$ (0.048) & 0.193$^{***}$ (0.054) & 0.158$^{***}$ (0.048) & 0.170$^{***}$ (0.046) & 0.177$^{***}$ (0.050) \\ 
+  Fruits & 0.172$^{***}$ (0.049) & 0.194$^{***}$ (0.055) & 0.159$^{***}$ (0.048) & 0.172$^{***}$ (0.046) & 0.175$^{***}$ (0.051) \\ 
+  Oilcrops & 0.169$^{***}$ (0.048) & 0.193$^{***}$ (0.054) & 0.158$^{***}$ (0.047) & 0.170$^{***}$ (0.046) & 0.177$^{***}$ (0.050) \\ 
+  Pulses & 0.161$^{***}$ (0.048) & 0.185$^{***}$ (0.057) & 0.153$^{***}$ (0.048) & 0.161$^{***}$ (0.046) & 0.165$^{***}$ (0.052) \\ 
+  Spices & 0.176$^{***}$ (0.050) & 0.199$^{***}$ (0.057) & 0.156$^{***}$ (0.050) & 0.178$^{***}$ (0.048) & 0.175$^{***}$ (0.052) \\ 
+  Starchy\_Roots & 0.168$^{***}$ (0.048) & 0.192$^{***}$ (0.054) & 0.159$^{***}$ (0.047) & 0.168$^{***}$ (0.046) & 0.176$^{***}$ (0.050) \\ 
+  Stimulants & 0.180$^{***}$ (0.050) & 0.204$^{***}$ (0.056) & 0.166$^{***}$ (0.049) & 0.179$^{***}$ (0.047) & 0.182$^{***}$ (0.051) \\ 
+  Treenuts & 0.170$^{***}$ (0.049) & 0.192$^{***}$ (0.054) & 0.160$^{***}$ (0.048) & 0.172$^{***}$ (0.046) & 0.178$^{***}$ (0.050) \\ 
+  `Vegetal Products` & $-$0.170$^{***}$ (0.048) & $-$0.194$^{***}$ (0.054) & $-$0.159$^{***}$ (0.048) & $-$0.171$^{***}$ (0.046) & $-$0.178$^{***}$ (0.050) \\ 
+  Vegetable\_Oils & 0.170$^{***}$ (0.048) & 0.194$^{***}$ (0.054) & 0.159$^{***}$ (0.047) & 0.171$^{***}$ (0.046) & 0.178$^{***}$ (0.050) \\ 
+  Vegetables & 0.163$^{***}$ (0.049) & 0.188$^{***}$ (0.055) & 0.146$^{***}$ (0.049) & 0.162$^{***}$ (0.047) & 0.166$^{***}$ (0.051) \\ 
+  Obesity & 0.001$^{***}$ (0.0005) & 0.002$^{***}$ (0.0005) & 0.001$^{***}$ (0.0004) & 0.001$^{***}$ (0.0004) & 0.002$^{***}$ (0.0004) \\ 
+  Constant & 0.013 (0.027) & 0.013 (0.027) & 0.015 (0.026) & 0.009 (0.025) & 0.012 (0.025) \\ 
+ \hline \\[-1.8ex] 
+Observations & 156 & 153 & 155 & 154 & 150 \\ 
+R$^{2}$ & 0.446 & 0.445 & 0.457 & 0.498 & 0.514 \\ 
+Adjusted R$^{2}$ & 0.396 & 0.393 & 0.407 & 0.451 & 0.468 \\ 
+Residual Std. Error & 0.038 (df = 142) & 0.038 (df = 139) & 0.037 (df = 141) & 0.036 (df = 140) & 0.035 (df = 136) \\ 
+F Statistic & 8.806$^{***}$ (df = 13; 142) & 8.565$^{***}$ (df = 13; 139) & 9.132$^{***}$ (df = 13; 141) & 10.667$^{***}$ (df = 13; 140) & 11.085$^{***}$ (df = 13; 136) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{5}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table}
+
+As can be seen in the table above, the R-squared of the model that
+removes all outliers ahigh leverage points is a noticeable improvement
+over the base model including all data points. We noticed that the
+estimates for the coefficients did not change much between models,
+indicating that while the outliers were negatively affecting the
+accuracy metrics of the model, they were not changing the estimates for
+the parameters themselves. We decided to remove the outliers and
+leverage points because we wanted to be able to compare future models
+against each other fairly, without the outliers influencing the accuracy
+metrics of those models.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# New model }
+\NormalTok{new_model_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+\KeywordTok{summary}\NormalTok{(new_model_}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Deaths ~ Animal_Fats + Cereals + Fruits + Oilcrops + 
+##     Pulses + Spices + Starchy_Roots + Stimulants + Treenuts + 
+##     `Vegetal Products` + Vegetable_Oils + Vegetables + Obesity, 
+##     data = no_unusual_observations)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.080550 -0.019870 -0.003948  0.014479  0.100033 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)         0.011575   0.024851   0.466 0.642119    
+## Animal_Fats         0.004995   0.001281   3.899 0.000151 ***
+## Cereals             0.176951   0.050182   3.526 0.000575 ***
+## Fruits              0.175030   0.050870   3.441 0.000771 ***
+## Oilcrops            0.177386   0.050053   3.544 0.000541 ***
+## Pulses              0.164786   0.052225   3.155 0.001974 ** 
+## Spices              0.175371   0.052498   3.341 0.001080 ** 
+## Starchy_Roots       0.176484   0.049783   3.545 0.000539 ***
+## Stimulants          0.182433   0.051415   3.548 0.000533 ***
+## Treenuts            0.177985   0.049779   3.576 0.000485 ***
+## `Vegetal Products` -0.177986   0.050173  -3.547 0.000534 ***
+## Vegetable_Oils      0.178008   0.050107   3.553 0.000525 ***
+## Vegetables          0.166187   0.051183   3.247 0.001469 ** 
+## Obesity             0.001604   0.000431   3.722 0.000288 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.03533 on 136 degrees of freedom
+## Multiple R-squared:  0.5145, Adjusted R-squared:  0.4681 
+## F-statistic: 11.09 on 13 and 136 DF,  p-value: 6.9e-16
+\end{verbatim}
+
+\hypertarget{part-4}{%
+\subsubsection{Part 4}\label{part-4}}
+
+Use Mallows Cp for identifying which terms you will keep in the model
+(based on part 3) and also use the Boruta algorithm for variable
+selection. Based on the two results, determine which subset of
+predictors you will keep.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Since Mallows CP has a lower number when testing our new_model_1, we will proceed with that model. }
+\KeywordTok{ols_mallows_cp}\NormalTok{(new_model_}\DecValTok{1}\NormalTok{, model_all)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -8.420024
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ols_mallows_cp}\NormalTok{(backAIC, model_all)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10.44401
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# install.packages("Boruta")}
+\KeywordTok{library}\NormalTok{(Boruta)}
+
+\NormalTok{Bor.res <-}\StringTok{ }\KeywordTok{Boruta}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Fruits}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\NormalTok{Spices}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Starchy_Roots}\OperatorTok{+}\NormalTok{Stimulants}\OperatorTok{+}\NormalTok{Treenuts}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Vegetables}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data =}\NormalTok{ no_unusual_observations, }
+                  \DataTypeTok{doTrace =} \DecValTok{2}\NormalTok{ )}
+
+\CommentTok{# plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")}
+
+
+\KeywordTok{plot}\NormalTok{(Bor.res, }\DataTypeTok{xlab =} \StringTok{"Attributes"}\NormalTok{, }\DataTypeTok{xaxt =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Boruta Algorithim"}\NormalTok{)}
+
+\NormalTok{lz<-}\KeywordTok{lapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(Bor.res}\OperatorTok{$}\NormalTok{ImpHistory),}\ControlFlowTok{function}\NormalTok{(i)}
+\NormalTok{Bor.res}\OperatorTok{$}\NormalTok{ImpHistory[}\KeywordTok{is.finite}\NormalTok{(Bor.res}\OperatorTok{$}\NormalTok{ImpHistory[,i]),i])}
+\KeywordTok{names}\NormalTok{(lz) <-}\StringTok{ }\KeywordTok{colnames}\NormalTok{(Bor.res}\OperatorTok{$}\NormalTok{ImpHistory)}
+\NormalTok{Labels <-}\StringTok{ }\KeywordTok{sort}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(lz,median))}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{,}\DataTypeTok{las=}\DecValTok{2}\NormalTok{,}\DataTypeTok{labels =} \KeywordTok{names}\NormalTok{(Labels),}
+\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(Bor.res}\OperatorTok{$}\NormalTok{ImpHistory), }\DataTypeTok{cex.axis =} \FloatTok{0.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Testing to see which variables we want to remove}
+\KeywordTok{attStats}\NormalTok{(Bor.res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                        meanImp  medianImp     minImp    maxImp   normHits
+## Animal_Fats        12.41283159 12.4184864 10.2446283 15.373916 1.00000000
+## Cereals             8.52930161  8.5916384  6.4772747 10.601557 1.00000000
+## Fruits             -0.38819652 -0.2856946 -2.4945004  1.451807 0.00000000
+## Oilcrops           10.23171682 10.4109946  7.8718312 12.370461 1.00000000
+## Pulses              4.72693188  4.7648818  2.1941449  6.955821 0.81632653
+## Spices              0.23192372 -0.1057116 -1.3519005  2.112937 0.00000000
+## Starchy_Roots       0.80336055  0.7324859 -0.4949055  2.547044 0.02040816
+## Stimulants          2.19009376  2.2565024  0.1554347  4.282547 0.26530612
+## Treenuts            1.21457731  0.9570241 -0.7971166  3.193687 0.08163265
+## `Vegetal Products` 10.81254607 10.8569019  8.8049713 12.650903 1.00000000
+## Vegetable_Oils      3.94282884  3.9126610  0.9844956  5.951152 0.75510204
+## Vegetables          0.06155519  0.3478822 -1.8838698  1.358241 0.02040816
+## Obesity            17.19622496 17.0334898 14.7967766 19.471518 1.00000000
+##                     decision
+## Animal_Fats        Confirmed
+## Cereals            Confirmed
+## Fruits              Rejected
+## Oilcrops           Confirmed
+## Pulses             Confirmed
+## Spices              Rejected
+## Starchy_Roots       Rejected
+## Stimulants          Rejected
+## Treenuts            Rejected
+## `Vegetal Products` Confirmed
+## Vegetable_Oils     Confirmed
+## Vegetables          Rejected
+## Obesity            Confirmed
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sorted_vars <-}\StringTok{ }\KeywordTok{attStats}\NormalTok{(Bor.res)[}\KeywordTok{order}\NormalTok{(}\OperatorTok{-}\KeywordTok{attStats}\NormalTok{(Bor.res)}\OperatorTok{$}\NormalTok{meanImp),]}
+\KeywordTok{print}\NormalTok{(sorted_vars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                        meanImp  medianImp     minImp    maxImp   normHits
+## Obesity            17.19622496 17.0334898 14.7967766 19.471518 1.00000000
+## Animal_Fats        12.41283159 12.4184864 10.2446283 15.373916 1.00000000
+## `Vegetal Products` 10.81254607 10.8569019  8.8049713 12.650903 1.00000000
+## Oilcrops           10.23171682 10.4109946  7.8718312 12.370461 1.00000000
+## Cereals             8.52930161  8.5916384  6.4772747 10.601557 1.00000000
+## Pulses              4.72693188  4.7648818  2.1941449  6.955821 0.81632653
+## Vegetable_Oils      3.94282884  3.9126610  0.9844956  5.951152 0.75510204
+## Stimulants          2.19009376  2.2565024  0.1554347  4.282547 0.26530612
+## Treenuts            1.21457731  0.9570241 -0.7971166  3.193687 0.08163265
+## Starchy_Roots       0.80336055  0.7324859 -0.4949055  2.547044 0.02040816
+## Spices              0.23192372 -0.1057116 -1.3519005  2.112937 0.00000000
+## Vegetables          0.06155519  0.3478822 -1.8838698  1.358241 0.02040816
+## Fruits             -0.38819652 -0.2856946 -2.4945004  1.451807 0.00000000
+##                     decision
+## Obesity            Confirmed
+## Animal_Fats        Confirmed
+## `Vegetal Products` Confirmed
+## Oilcrops           Confirmed
+## Cereals            Confirmed
+## Pulses             Confirmed
+## Vegetable_Oils     Confirmed
+## Stimulants          Rejected
+## Treenuts            Rejected
+## Starchy_Roots       Rejected
+## Spices              Rejected
+## Vegetables          Rejected
+## Fruits              Rejected
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# We will reject: Stimulants, Treenuts, Starchy Roots, Vegetables, Spices, Fruits}
+
+\CommentTok{# Our New Model }
+\NormalTok{new_model_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses}\OperatorTok{+}\StringTok{`}\DataTypeTok{Vegetal Products}\StringTok{`}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+\KeywordTok{summary}\NormalTok{(new_model_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Deaths ~ Animal_Fats + Cereals + Oilcrops + Pulses + 
+##     `Vegetal Products` + Vegetable_Oils + Obesity, data = no_unusual_observations)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.080164 -0.024293 -0.003623  0.014763  0.103286 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)        -0.0089355  0.0235770  -0.379 0.705259    
+## Animal_Fats         0.0060034  0.0012583   4.771  4.5e-06 ***
+## Cereals             0.0001003  0.0024696   0.041 0.967667    
+## Oilcrops            0.0007169  0.0024889   0.288 0.773735    
+## Pulses             -0.0156242  0.0140885  -1.109 0.269302    
+## `Vegetal Products` -0.0010518  0.0024610  -0.427 0.669725    
+## Vegetable_Oils      0.0013550  0.0023390   0.579 0.563285    
+## Obesity             0.0016209  0.0004172   3.885 0.000156 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.03635 on 142 degrees of freedom
+## Multiple R-squared:  0.4635, Adjusted R-squared:  0.437 
+## F-statistic: 17.52 on 7 and 142 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\hypertarget{part-5}{%
+\subsubsection{Part 5}\label{part-5}}
+
+Test for multicollinearity using VIF on the model from (4) . Based on
+the test, remove any appropriate variables, and estimate a new
+regression model based on these findings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{vif}\NormalTok{(new_model_}\DecValTok{2}\NormalTok{) }\CommentTok{# We will remove any variable with a VIF over 5 to satisfy collinearity assumption}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Animal_Fats            Cereals           Oilcrops             Pulses 
+##           1.967723           7.059653          10.259789           1.596918 
+## `Vegetal Products`     Vegetable_Oils            Obesity 
+##          45.029589          27.253117           1.597495
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Vegetal products has the highest VIF, so we remove that and repeat}
+\NormalTok{vif_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }\NormalTok{Vegetable_Oils}\OperatorTok{+}\NormalTok{Obesity, }
+            \DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+\KeywordTok{vif}\NormalTok{(vif_}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Animal_Fats        Cereals       Oilcrops         Pulses Vegetable_Oils 
+##       1.823054       1.614271       1.524979       1.478783       1.440639 
+##        Obesity 
+##       1.575614
+\end{verbatim}
+
+After removing Vegetal Products, all other predictors have a VIF under
+5, so we will keep all of those.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new_model_}\DecValTok{3}\NormalTok{ <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }\NormalTok{Vegetable_Oils}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Obesity, }\DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+
+\CommentTok{#New Model }
+\KeywordTok{summary}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Deaths ~ Animal_Fats + Cereals + Oilcrops + Pulses + 
+##     Vegetable_Oils + Obesity, data = no_unusual_observations)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.079008 -0.024487 -0.004085  0.015139  0.103496 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    -0.0140714  0.0202269  -0.696 0.487759    
+## Animal_Fats     0.0061492  0.0012077   5.092  1.1e-06 ***
+## Cereals        -0.0008268  0.0011776  -0.702 0.483758    
+## Oilcrops       -0.0002647  0.0009568  -0.277 0.782492    
+## Pulses         -0.0172620  0.0135186  -1.277 0.203702    
+## Vegetable_Oils  0.0003821  0.0005362   0.713 0.477266    
+## Obesity         0.0016001  0.0004131   3.873 0.000163 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.03625 on 143 degrees of freedom
+## Multiple R-squared:  0.4628, Adjusted R-squared:  0.4403 
+## F-statistic: 20.53 on 6 and 143 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+In our new model, we can see that Animal Fats and Obesity are the only
+predictors that are statistically significant.
+
+\hypertarget{part-6}{%
+\subsubsection{Part 6}\label{part-6}}
+
+For your model in part (5) plot the respective residuals vs.~y\_hat and
+comment on your results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{project1_rmd_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+From the residuals vs fitted plot it can be seen that our residuals
+appear to spread out the greater our fitted value is. The red smoother
+runs close to zero which is a good thing.
+
+\hypertarget{part-7}{%
+\subsubsection{Part 7}\label{part-7}}
+
+For your model in part (5) perform a RESET test and comment on your
+results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{resettest}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{, }\DataTypeTok{power =} \DecValTok{2}\NormalTok{, }\DataTypeTok{type =} \StringTok{"regressor"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  RESET test
+## 
+## data:  new_model_3
+## RESET = 1.092, df1 = 6, df2 = 137, p-value = 0.3703
+\end{verbatim}
+
+Here we tested our model by testing our model against a quadratic. Our
+result is a p-value of 0.3703 which means that we fail to reject the
+null hypothesis of higher powers existing and should not consider higher
+powers in later version of our model.
+
+\hypertarget{part-8}{%
+\subsubsection{Part 8}\label{part-8}}
+
+For your model in part (5) test for heteroskedasticity and comment on
+your results. If you identify heteroskedasticy, make sure to account for
+it before moving on to (9).
+
+Below we will test for heteroskedacity using the ncvTest and bptest.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Non-constant error variance: Ho: variance = constant }
+\KeywordTok{ncvTest}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{) }\CommentTok{# Reject Ho}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Non-constant Variance Score Test 
+## Variance formula: ~ fitted.values 
+## Chisquare = 31.85058, Df = 1, p = 1.665e-08
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# BP test }
+\KeywordTok{bptest}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{) }\CommentTok{#Reject Ho}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  studentized Breusch-Pagan test
+## 
+## data:  new_model_3
+## BP = 31.9, df = 6, p-value = 1.705e-05
+\end{verbatim}
+
+From the above tests it can be seen that heteroskedacity is present in
+our data, as the p-value for both tests is essentially zero. In order to
+account for that we will now run our model with robust white standard
+errors. Here our new standard errors can be found.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cov1 <-}\StringTok{ }\KeywordTok{hccm}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{, }\DataTypeTok{type =} \StringTok{"hc1"}\NormalTok{)}
+\CommentTok{#Have our model account for those errors. }
+\NormalTok{new_model_}\DecValTok{3}\NormalTok{_adjusted <-}\StringTok{ }\KeywordTok{coeftest}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{, }\DataTypeTok{vcov. =}\NormalTok{ cov1)}
+\KeywordTok{tidy}\NormalTok{(new_model_}\DecValTok{3}\NormalTok{_adjusted)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 5
+##   term            estimate std.error statistic   p.value
+##   <chr>              <dbl>     <dbl>     <dbl>     <dbl>
+## 1 (Intercept)    -0.0141    0.0195      -0.722 0.472    
+## 2 Animal_Fats     0.00615   0.00141      4.35  0.0000259
+## 3 Cereals        -0.000827  0.000928    -0.891 0.374    
+## 4 Oilcrops       -0.000265  0.000730    -0.362 0.718    
+## 5 Pulses         -0.0173    0.00837     -2.06  0.0410   
+## 6 Vegetable_Oils  0.000382  0.000502     0.761 0.448    
+## 7 Obesity         0.00160   0.000384     4.16  0.0000538
+\end{verbatim}
+
+The above table has the adjusted standard errors for the estimates when
+heterskedasticity is accounted for. We can see that Pulses now becomes
+statistically significant when using the adjusted standard errors
+despite not being significant earlier.
+
+\hypertarget{part-9}{%
+\subsubsection{Part 9}\label{part-9}}
+
+Estimate a model based on all your findings that also includes
+interaction terms (if appropriate) and if needed, any higher power
+terms. Comment on the performance of this model compared to your other
+models. Make sure to use AIC and BIC for model comparison.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Our RESET test suggested there is no existence of higher power terms,}
+\CommentTok{# so we will not test for those}
+
+\CommentTok{# Testing for interaction}
+\NormalTok{interaction_terms <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\StringTok{ }\NormalTok{Cereals }\OperatorTok{+}\StringTok{ }\NormalTok{Oilcrops }\OperatorTok{+}\StringTok{ }\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\NormalTok{Vegetable_Oils }\OperatorTok{+}\StringTok{ }\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Cereals }\OperatorTok{+}\StringTok{ }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Oilcrops }\OperatorTok{+}
+\StringTok{    }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Vegetable_Oils }\OperatorTok{+}\StringTok{ }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{Cereals}\OperatorTok{:}\NormalTok{Oilcrops }\OperatorTok{+}\StringTok{ }\NormalTok{Cereals}\OperatorTok{:}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{Cereals}\OperatorTok{:}\NormalTok{Vegetable_Oils }\OperatorTok{+}\StringTok{ }\NormalTok{Cereals}\OperatorTok{:}\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }\NormalTok{Oilcrops}\OperatorTok{:}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{Oilcrops}\OperatorTok{:}\NormalTok{Vegetable_Oils }\OperatorTok{+}\StringTok{ }\NormalTok{Oilcrops}\OperatorTok{:}\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{Pulses}\OperatorTok{:}\NormalTok{Vegetable_Oils }\OperatorTok{+}\StringTok{ }\NormalTok{Pulses}\OperatorTok{:}\NormalTok{Obesity }\OperatorTok{+}\StringTok{  }\NormalTok{Vegetable_Oils}\OperatorTok{:}\NormalTok{Obesity, }
+  \DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+
+\KeywordTok{summary}\NormalTok{(interaction_terms) }\CommentTok{#Animal_Fats:Vegetable_oils is statistically significant, this will be added to a new model}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Deaths ~ Animal_Fats + Cereals + Oilcrops + Pulses + 
+##     Vegetable_Oils + Obesity + Animal_Fats:Cereals + Animal_Fats:Oilcrops + 
+##     Animal_Fats:Pulses + Animal_Fats:Vegetable_Oils + Animal_Fats:Obesity + 
+##     Cereals:Oilcrops + Cereals:Pulses + Cereals:Vegetable_Oils + 
+##     Cereals:Obesity + Oilcrops:Pulses + Oilcrops:Vegetable_Oils + 
+##     Oilcrops:Obesity + Pulses:Vegetable_Oils + Pulses:Obesity + 
+##     Vegetable_Oils:Obesity, data = no_unusual_observations)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.085936 -0.020716 -0.001209  0.014357  0.097553 
+## 
+## Coefficients:
+##                              Estimate Std. Error t value Pr(>|t|)  
+## (Intercept)                -4.803e-02  6.128e-02  -0.784   0.4346  
+## Animal_Fats                -3.614e-03  6.989e-03  -0.517   0.6060  
+## Cereals                     6.040e-03  6.080e-03   0.993   0.3224  
+## Oilcrops                    2.768e-03  3.314e-03   0.835   0.4051  
+## Pulses                      3.023e-03  1.255e-01   0.024   0.9808  
+## Vegetable_Oils              1.327e-03  2.004e-03   0.662   0.5090  
+## Obesity                     4.814e-03  2.456e-03   1.960   0.0521 .
+## Animal_Fats:Cereals        -2.291e-04  6.214e-04  -0.369   0.7129  
+## Animal_Fats:Oilcrops       -8.267e-04  7.070e-04  -1.169   0.2444  
+## Animal_Fats:Pulses         -1.117e-03  7.576e-03  -0.147   0.8830  
+## Animal_Fats:Vegetable_Oils  5.216e-04  2.165e-04   2.410   0.0174 *
+## Animal_Fats:Obesity         4.998e-05  2.176e-04   0.230   0.8187  
+## Cereals:Oilcrops            1.051e-04  3.495e-04   0.301   0.7642  
+## Cereals:Pulses              1.262e-03  5.241e-03   0.241   0.8100  
+## Cereals:Vegetable_Oils     -3.031e-04  2.207e-04  -1.373   0.1721  
+## Cereals:Obesity            -1.282e-04  1.545e-04  -0.829   0.4084  
+## Oilcrops:Pulses            -1.676e-03  4.793e-03  -0.350   0.7271  
+## Oilcrops:Vegetable_Oils     1.233e-05  1.385e-04   0.089   0.9292  
+## Oilcrops:Obesity           -2.839e-04  2.254e-04  -1.260   0.2100  
+## Pulses:Vegetable_Oils       2.929e-04  3.133e-03   0.094   0.9256  
+## Pulses:Obesity             -1.431e-03  1.993e-03  -0.718   0.4740  
+## Vegetable_Oils:Obesity     -9.205e-05  7.552e-05  -1.219   0.2252  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.03452 on 128 degrees of freedom
+## Multiple R-squared:  0.564,  Adjusted R-squared:  0.4924 
+## F-statistic: 7.884 on 21 and 128 DF,  p-value: 1.105e-14
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new_model_}\DecValTok{4}\NormalTok{ <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }\NormalTok{Vegetable_Oils}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Vegetable_Oils, }\DataTypeTok{data=}\NormalTok{no_unusual_observations)}
+
+\KeywordTok{summary}\NormalTok{(new_model_}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Deaths ~ Animal_Fats + Cereals + Oilcrops + Pulses + 
+##     Vegetable_Oils + Obesity + Animal_Fats:Vegetable_Oils, data = no_unusual_observations)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.077977 -0.025445 -0.001541  0.016170  0.100535 
+## 
+## Coefficients:
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                 0.0171752  0.0246193   0.698 0.486548    
+## Animal_Fats                -0.0010627  0.0035308  -0.301 0.763862    
+## Cereals                    -0.0010108  0.0011657  -0.867 0.387313    
+## Oilcrops                   -0.0006128  0.0009582  -0.640 0.523513    
+## Pulses                     -0.0196365  0.0133914  -1.466 0.144762    
+## Vegetable_Oils             -0.0008681  0.0007824  -1.109 0.269100    
+## Obesity                     0.0014326  0.0004151   3.451 0.000736 ***
+## Animal_Fats:Vegetable_Oils  0.0003984  0.0001836   2.170 0.031663 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.03579 on 142 degrees of freedom
+## Multiple R-squared:   0.48,  Adjusted R-squared:  0.4544 
+## F-statistic: 18.73 on 7 and 142 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Testing with AIC and BIC }
+
+\KeywordTok{AIC}\NormalTok{(new_model_}\DecValTok{1}\NormalTok{, new_model_}\DecValTok{2}\NormalTok{, new_model_}\DecValTok{3}\NormalTok{, new_model_}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             df       AIC
+## new_model_1 15 -561.8820
+## new_model_2  9 -558.9032
+## new_model_3  8 -560.7103
+## new_model_4  9 -563.6042
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{BIC}\NormalTok{(new_model_}\DecValTok{1}\NormalTok{, new_model_}\DecValTok{2}\NormalTok{, new_model_}\DecValTok{3}\NormalTok{, new_model_}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             df       BIC
+## new_model_1 15 -516.7225
+## new_model_2  9 -531.8074
+## new_model_3  8 -536.6252
+## new_model_4  9 -536.5085
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Adding Robust Standard Errors to this new model since we know heteroskedasticity is present }
+
+\NormalTok{cov2 <-}\StringTok{ }\KeywordTok{hccm}\NormalTok{(new_model_}\DecValTok{4}\NormalTok{, }\DataTypeTok{type =} \StringTok{"hc1"}\NormalTok{)}
+\CommentTok{#Have our model account for those errors. }
+\NormalTok{new_model_}\DecValTok{4}\NormalTok{_adjusted <-}\StringTok{ }\KeywordTok{coeftest}\NormalTok{(new_model_}\DecValTok{4}\NormalTok{, }\DataTypeTok{vcov. =}\NormalTok{ cov2)}
+
+\KeywordTok{tidy}\NormalTok{(new_model_}\DecValTok{4}\NormalTok{_adjusted)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 8 x 5
+##   term                        estimate std.error statistic  p.value
+##   <chr>                          <dbl>     <dbl>     <dbl>    <dbl>
+## 1 (Intercept)                 0.0172    0.0219       0.783 0.435   
+## 2 Animal_Fats                -0.00106   0.00337     -0.315 0.753   
+## 3 Cereals                    -0.00101   0.000937    -1.08  0.282   
+## 4 Oilcrops                   -0.000613  0.000712    -0.861 0.391   
+## 5 Pulses                     -0.0196    0.00888     -2.21  0.0286  
+## 6 Vegetable_Oils             -0.000868  0.000600    -1.45  0.150   
+## 7 Obesity                     0.00143   0.000389     3.68  0.000327
+## 8 Animal_Fats:Vegetable_Oils  0.000398  0.000176     2.27  0.0250
+\end{verbatim}
+
+As stated above, we did not test for higher powers because the RESET
+test suggested we should not test our model with quadratic variables. We
+only tested for interaction terms, and in our model that included all
+interaction terms we found that the interaction between Animal Fats and
+Vegetable Oils was statistically significant. This interaction was added
+to model 3, creating new\_model\_4. We then went and tested all of our
+models with AIC and BIC and it was confirmed that new\_model\_4 had the
+lowest AIC and was virtually tied in BIC with model 3. This lead us to
+believe that we had found the best model in model 4. In part 8 we
+learned that heteroskedacity is present in our data, we took this into
+cosideration and calculated the robust standard errors for
+new\_model\_4, which created new\_model\_4\_adjusted. Again, we see that
+Pulses becomes statistically significant when accounting for the
+adjusted standard errors.
+
+\hypertarget{part-10}{%
+\subsubsection{Part 10}\label{part-10}}
+
+Evaluate your model performance (from 9) using cross-validation, and
+also by dividing your data into the traditional 2/3 training and 1/3
+testing samples, to evaluate your out-of-sample performance. Comment on
+your results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# split data into 2/3 train 1/3 test}
+\NormalTok{train <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(no_unusual_observations), }\KeywordTok{nrow}\NormalTok{(no_unusual_observations) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{data_train <-}\StringTok{ }\NormalTok{no_unusual_observations[train,]}
+\NormalTok{data_test <-}\StringTok{ }\NormalTok{no_unusual_observations[}\OperatorTok{-}\NormalTok{train,]}
+
+\CommentTok{# do 5-fold cross validation on the training partition}
+\CommentTok{# using model_vif below as placeholder}
+\NormalTok{fitControl <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method=}\StringTok{"cv"}\NormalTok{, }\DataTypeTok{number =} \DecValTok{5}\NormalTok{, }\DataTypeTok{savePredictions =}\NormalTok{ T)}
+\NormalTok{model_cv <-}\StringTok{ }\KeywordTok{train}\NormalTok{(Deaths}\OperatorTok{~}\NormalTok{Animal_Fats}\OperatorTok{+}\NormalTok{Cereals}\OperatorTok{+}\NormalTok{Oilcrops}\OperatorTok{+}\NormalTok{Pulses }\OperatorTok{+}\StringTok{ }\NormalTok{Vegetable_Oils}\OperatorTok{+}
+\StringTok{                    }\NormalTok{Obesity }\OperatorTok{+}\StringTok{ }\NormalTok{Animal_Fats}\OperatorTok{:}\NormalTok{Vegetable_Oils, }\DataTypeTok{data=}\NormalTok{data_train,  }
+                  \DataTypeTok{trControl =}\NormalTok{ fitControl, }\DataTypeTok{method =} \StringTok{"glm"}\NormalTok{)}
+
+\NormalTok{model_cv}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Generalized Linear Model 
+## 
+## 100 samples
+##   6 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 80, 80, 80, 80, 80 
+## Resampling results:
+## 
+##   RMSE        Rsquared   MAE      
+##   0.03426946  0.5095203  0.0264018
+\end{verbatim}
+
+From our cross validation, we see that the RMSE is .036 and the
+R-squared is .471 within the cross-validation partition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# make predictions on the testing partition}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(model_cv, data_test, }\DataTypeTok{vcov. =}\NormalTok{ cov2)}
+
+\CommentTok{# calculate RMSE}
+\KeywordTok{RMSE}\NormalTok{(pred, data_test}\OperatorTok{$}\NormalTok{Deaths)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.04272092
+\end{verbatim}
+
+The RMSE on our test partition from the model created with the training
+partition is .037, which is in line with the value from above. This is a
+good sign for the out-of-sample performance of the model.
+
+\hypertarget{part-11}{%
+\subsubsection{Part 11}\label{part-11}}
+
+Provide a short (1 paragraph) summary of your overall
+conclusions/findings.
+
+When examining the data overall, there were not any massive outliers
+that stood out. We found that many of the food categories that were
+included in tracking fat sources were not statistically or practically
+significant. Our model was quickly trimmed down from the initial pool of
+variables that we considered. Our final model is repeated below, along
+with the adjusted errors. Through model comparison with AIC and BIC, we
+found that the best predictors to include were Animal Fats, Cereals,
+Oilcrops, Pulses, Vegetable Oils, Obesity, and the interaction between
+Animal Fats and Obesity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(new_model_}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Call: lm(formula = Deaths \textasciitilde{} Animal\_Fats + Cereals +
+Oilcrops + Pulses + Vegetable\_Oils + Obesity +
+Animal\_Fats:Vegetable\_Oils, data = no\_unusual\_observations)
+
+Residuals: Min 1Q Median 3Q Max -0.077977 -0.025445 -0.001541 0.016170
+0.100535
+
+Coefficients: Estimate Std. Error t value
+Pr(\textgreater\textbar t\textbar)\\
+(Intercept) 0.0171752 0.0246193 0.698 0.486548\\
+Animal\_Fats -0.0010627 0.0035308 -0.301 0.763862\\
+Cereals -0.0010108 0.0011657 -0.867 0.387313\\
+Oilcrops -0.0006128 0.0009582 -0.640 0.523513\\
+Pulses -0.0196365 0.0133914 -1.466 0.144762\\
+Vegetable\_Oils -0.0008681 0.0007824 -1.109 0.269100\\
+Obesity 0.0014326 0.0004151 3.451 0.000736 **\emph{
+Animal\_Fats:Vegetable\_Oils 0.0003984 0.0001836 2.170 0.031663 }\\
+--- Signif. codes: 0 `\emph{\textbf{' 0.001 '}' 0.01 '}' 0.05 `.' 0.1 '
+' 1
+
+Residual standard error: 0.03579 on 142 degrees of freedom Multiple
+R-squared: 0.48, Adjusted R-squared: 0.4544 F-statistic: 18.73 on 7 and
+142 DF, p-value: \textless{} 2.2e-16
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tidy}\NormalTok{(new_model_}\DecValTok{4}\NormalTok{_adjusted)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-tibble-8-x-5}{%
+\section{A tibble: 8 x 5}\label{a-tibble-8-x-5}}
+
+term estimate std.error statistic p.value 1 (Intercept) 0.0172 0.0219
+0.783 0.435\\
+2 Animal\_Fats -0.00106 0.00337 -0.315 0.753\\
+3 Cereals -0.00101 0.000937 -1.08 0.282\\
+4 Oilcrops -0.000613 0.000712 -0.861 0.391\\
+5 Pulses -0.0196 0.00888 -2.21 0.0286\\
+6 Vegetable\_Oils -0.000868 0.000600 -1.45 0.150\\
+7 Obesity 0.00143 0.000389 3.68 0.000327 8 Animal\_Fats:Vegetable\_Oils
+0.000398 0.000176 2.27 0.0250
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(stargazer)}
+
+\KeywordTok{stargazer}\NormalTok{(backAIC, new_model_}\DecValTok{1}\NormalTok{, new_model_}\DecValTok{2}\NormalTok{, new_model_}\DecValTok{3}\NormalTok{, new_model_}\DecValTok{4}\NormalTok{, }\DataTypeTok{object.names =} \OtherTok{TRUE}\NormalTok{, }
+          \DataTypeTok{title =} \StringTok{"Regression Model Results"}\NormalTok{, }\DataTypeTok{column.labels =} 
+            \KeywordTok{c}\NormalTok{(}\StringTok{"BackAIC"}\NormalTok{, }\StringTok{"Model 1"}\NormalTok{, }\StringTok{"Model 2"}\NormalTok{, }
+              \StringTok{"Model 3"}\NormalTok{, }\StringTok{"Model 4"}\NormalTok{), }\DataTypeTok{type =} \StringTok{'latex'}\NormalTok{, }
+          \DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{no.space =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{single.row =} \OtherTok{TRUE}\NormalTok{, }
+          \DataTypeTok{font.size =} \StringTok{"small"}\NormalTok{, }\DataTypeTok{column.sep.width =} \StringTok{"-15pt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[!htbp] \centering 
+  \caption{Regression Model Results} 
+  \label{} 
+\small 
+\begin{tabular}{@{\extracolsep{-15pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{5}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-6} 
+\\[-1.8ex] & Deaths & \multicolumn{4}{c}{Deaths} \\ 
+ & BackAIC & Model 1 & Model 2 & Model 3 & Model 4 \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
+\\[-1.8ex] & backAIC & new_model_1 & new_model_2 & new_model_3 & new_model_4\\ 
+\hline \\[-1.8ex] 
+ `Animal fats` & 0.004$^{***}$ (0.001) &  &  &  &  \\ 
+  `Cereals - Excluding Beer` & 0.169$^{***}$ (0.048) &  &  &  &  \\ 
+  `Fruits - Excluding Wine` & 0.172$^{***}$ (0.049) &  &  &  &  \\ 
+  Oilcrops & 0.169$^{***}$ (0.048) &  &  &  &  \\ 
+  Pulses & 0.161$^{***}$ (0.048) &  &  &  &  \\ 
+  Spices & 0.176$^{***}$ (0.050) &  &  &  &  \\ 
+  `Starchy Roots` & 0.168$^{***}$ (0.048) &  &  &  &  \\ 
+  Stimulants & 0.180$^{***}$ (0.050) &  &  &  &  \\ 
+  Treenuts & 0.170$^{***}$ (0.049) &  &  &  &  \\ 
+  `Vegetal Products` & $-$0.170$^{***}$ (0.048) &  &  &  &  \\ 
+  `Vegetable Oils` & 0.170$^{***}$ (0.048) &  &  &  &  \\ 
+  Vegetables & 0.163$^{***}$ (0.049) &  &  &  &  \\ 
+  Obesity & 0.001$^{***}$ (0.0005) &  &  &  &  \\ 
+  Animal\_Fats &  & 0.005$^{***}$ (0.001) & 0.006$^{***}$ (0.001) & 0.006$^{***}$ (0.001) & $-$0.001 (0.004) \\ 
+  Cereals &  & 0.177$^{***}$ (0.050) & 0.0001 (0.002) & $-$0.001 (0.001) & $-$0.001 (0.001) \\ 
+  Fruits &  & 0.175$^{***}$ (0.051) &  &  &  \\ 
+  Oilcrops &  & 0.177$^{***}$ (0.050) & 0.001 (0.002) & $-$0.0003 (0.001) & $-$0.001 (0.001) \\ 
+  Pulses &  & 0.165$^{***}$ (0.052) & $-$0.016 (0.014) & $-$0.017 (0.014) & $-$0.020 (0.013) \\ 
+  Spices &  & 0.175$^{***}$ (0.052) &  &  &  \\ 
+  Starchy\_Roots &  & 0.176$^{***}$ (0.050) &  &  &  \\ 
+  Stimulants &  & 0.182$^{***}$ (0.051) &  &  &  \\ 
+  Treenuts &  & 0.178$^{***}$ (0.050) &  &  &  \\ 
+  `Vegetal Products` &  & $-$0.178$^{***}$ (0.050) & $-$0.001 (0.002) &  &  \\ 
+  Vegetable\_Oils &  & 0.178$^{***}$ (0.050) & 0.001 (0.002) & 0.0004 (0.001) & $-$0.001 (0.001) \\ 
+  Vegetables &  & 0.166$^{***}$ (0.051) &  &  &  \\ 
+  Obesity &  & 0.002$^{***}$ (0.0004) & 0.002$^{***}$ (0.0004) & 0.002$^{***}$ (0.0004) & 0.001$^{***}$ (0.0004) \\ 
+  Animal\_Fats:Vegetable\_Oils &  &  &  &  & 0.0004$^{**}$ (0.0002) \\ 
+  Constant & 0.013 (0.027) & 0.012 (0.025) & $-$0.009 (0.024) & $-$0.014 (0.020) & 0.017 (0.025) \\ 
+ \hline \\[-1.8ex] 
+Observations & 156 & 150 & 150 & 150 & 150 \\ 
+R$^{2}$ & 0.446 & 0.514 & 0.463 & 0.463 & 0.480 \\ 
+Adjusted R$^{2}$ & 0.396 & 0.468 & 0.437 & 0.440 & 0.454 \\ 
+Residual Std. Error & 0.038 (df = 142) & 0.035 (df = 136) & 0.036 (df = 142) & 0.036 (df = 143) & 0.036 (df = 142) \\ 
+F Statistic & 8.806$^{***}$ (df = 13; 142) & 11.085$^{***}$ (df = 13; 136) & 17.525$^{***}$ (df = 7; 142) & 20.532$^{***}$ (df = 6; 143) & 18.728$^{***}$ (df = 7; 142) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{5}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table}
+
+\end{document}

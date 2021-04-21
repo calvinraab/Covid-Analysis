@@ -243,18 +243,13 @@ ols_mallows_cp(backAIC, model_all)
 # install.packages("Boruta")
 library(Boruta)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4984828c6967cf21329eedb02dd37037e256ab0c
 Bor.res <- Boruta(Deaths~Animal_Fats+Cereals+Fruits+Oilcrops+Pulses+Spices+
                     Starchy_Roots+Stimulants+Treenuts+`Vegetal Products`+
                     Vegetable_Oils+Vegetables+Obesity, data = no_unusual_observations, 
                   doTrace = 2 )
-<<<<<<< HEAD
-=======
+
 # plot(Bor.res, xlab = "", xaxt = "n", main = "Boruta Algorithim")
->>>>>>> 4984828c6967cf21329eedb02dd37037e256ab0c
+
 
 plot(Bor.res, xlab = "Attributes", xaxt = "n", main = "Boruta Algorithim")
 

@@ -420,13 +420,6 @@ The RMSE on our test partition from the model created with the training partitio
 Provide a short (1 paragraph) summary of your overall conclusions/findings.
 
 When examining the data overall, there were not any massive outliers that stood out. We found that many of the food categories that were included in tracking fat sources were not statistically or practically significant. Our model was quickly trimmed down from the initial pool of variables that we considered. Through model comparison with AIC and BIC, we found that the best predictors to include were Animal Fats, Cereals, Oilcrops, Pulses, Vegetable Oils, Obesity, and the interaction between Animal Fats and Obesity. Unsurprisingly, Obesity was the most significant predictor in our final model, which is expected given the link between obesity and increased risk to COVID-19. As we went through the parts sequentially, the overall quality of the model improved. We also found that adjusting the errors for heteroskedasticity was a very important step, as Pulses went from insignificant to significant both times that we adjusted.
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 4327c4a61db4a303e527ee4d127fdbe4fae4bc6c
 
 
 
